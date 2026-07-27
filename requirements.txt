@@ -1,0 +1,9 @@
+aiogram>=3.20.0
+httpx>=0.28.0
+pydantic-settings>=2.8.0
+python-dotenv>=1.0.1
+PyYAML>=6.0.2
+psycopg2-binary>=2.9.9
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+tzdata>=2024.1

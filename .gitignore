@@ -1,0 +1,99 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local runtime data
+data/
+logs/
+*.log
+*.pid
+*.db
+*.sqlite
+*.sqlite3
+bot.sqlite3
+
+# Temporary and generated files
+tmp/
+temp/
+reports/
+*.bak
+*.bak_*
+*.tmp
+*.swp
+*.swo
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# Local dev tooling caches
+.graphify/
+.graphifyignore
+graphify-out/
+.headroom/
+scripts/codex-headroom.ps1
+scripts/graphify-build.ps1
+scripts/headroom-*.ps1
+scripts/tooling-status.ps1
+
+# Local historical patch notes kept outside deploy commits
+DEPLOY_MAX.md
+*_FIX*.md
+FINAL_FIXES_*.md
+FIX_DIALOG_NOTES.md
+WAITING_PAYMENT_DIALOG_FIX.md
+POSTPAY_*.md
+PAYMENT_*.md
+BATHHOUSE_*.md
+SCHEDULE_*.md
+UPSELL_*.md
+VOICE_*.md
+WATCHLIST_*.md
+MAX_ADMIN_AND_VOICE_FIX.md
+
+# Accidental shell-created fragments
+CHAT_ID
+TEXT
+PY
+client_name=*
+date=*
+duration=*
+event_format=*
+guests_count=*
+phone=*
+service_type=*
+service_variant=*
+status=*
+time=*
+upsell_done=*
+upsell_items=*
+draft.*
+total_price
+prepay
+remaining
+else:
+from
+if
+import

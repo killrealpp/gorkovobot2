@@ -1,0 +1,34 @@
+reply: string for customer, no markdown, no technical terms
+intent:
+  enum:
+    - booking
+    - info
+    - change
+    - cancel
+    - reschedule
+    - confirm
+    - handoff
+    - unknown
+fields_patch:
+  service_type: gazebo|bathhouse|house|warm_gazebo|null
+  date: YYYY-MM-DD|null
+  guests_count: number|null
+  service_variant: string|null
+  time: HH:MM|null
+  duration: number|null
+  event_format: string|null
+  upsell_items: list[string]
+  client_name: string|null
+  phone: string|null
+action:
+  type:
+    enum:
+      - none
+      - check_availability
+      - list_available_dates
+      - create_payment
+      - reset_draft
+      - handoff
+  params: object
+missing_fields: list[string]
+confidence: number

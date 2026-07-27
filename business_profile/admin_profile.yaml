@@ -1,0 +1,560 @@
+# Единый админский профиль бота. /app/data/admin_profile.py
+# Меняйте этот файл, когда нужно сменить тематику: например, с базы отдыха на массажный салон. /app/data/admin_profile.py
+# Секреты сюда не вносить: токены, API-ключи, payment secret и partner/user tokens остаются в .env. /app/core/config.py
+
+business:
+  # Секция business собирается в business.identity и knowledge.context. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/ai/router_prompt.md, /app/ai/parser.py
+  # Показывается в промптах, стартовом сообщении и базе знаний. /app/data/admin_profile.py, /app/ai/parser.py
+  name: "Причал"
+  # Тип бизнеса нужен AI, чтобы говорить правильными словами: база отдыха, салон, клиника, школа. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  type: "база отдыха"
+  # Город/населённый пункт для клиентских ответов. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  city: "Выкса"
+  # Адрес и ориентир для FAQ и справочного контекста. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  address: "конец улицы Максима Горького, пляж Максима Горького"
+  # Короткое публичное описание, попадает в prompt context. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  description: "Бронирование беседок, бани с бассейном, гостевого дома и тёплой беседки."
+  # Телефон администратора для ситуаций, когда расписание не открыто или нужна ручная помощь. /app/data/admin_profile.py, /app/ai/parser.py
+  contact_phone: "89991369991"
+  # Правило, если клиент спрашивает похожее место/другой парк/другой бизнес. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  service_area_rule: "Если спрашивают про Русалочку или другой парк, отвечай, что бронирование ведётся только на парк Максима Горького."
+
+assistant:
+  # Секция assistant собирается в assistant.persona. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/ai/router_prompt.md, /app/ai/parser.py
+  # Имя администратора, которое используется в промптах. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  name: "Любовь"
+  # Роль для persona-промпта. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  role: "администратор"
+  # Грамматический стиль. Для другого бота можно поставить neutral или male и поправить фразы. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  gender: "female"
+  # Общий тон ответов. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  tone: "на Вы, деловой, тёплый, живой, без канцелярита"
+  # Глаголы, которыми AI подтверждает действия. Они попадут в prompt. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  action_phrases:
+    - "поняла"
+    - "записала"
+    - "проверила"
+    - "подготовила"
+
+
+booking:
+  # Секция booking задаёт старт, порядок и вопросы сбора заявки. /app/data/admin_profile.py, /app/ai/parser.py, /app/dialog/dialog_guard.py
+  # Как называть заявку клиенту. Для салона можно заменить на "запись". /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  entity_name: "бронь"
+  # Что бот делает в целом: забронировать, записать, оформить заявку. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  action_verb: "забронировать"
+  # Стартовое сообщение MAX/Telegram. Можно менять целиком. /app/data/admin_profile.py, /app/bot/max.py, /app/bot/telegram.py, /app/ai/parser.py
+  start_reply: "Здравствуйте! Это бот для бронирования на базе отдыха «Причал» в Выксе. Что хотите забронировать: беседку, баню, дом или тёплую беседку?"
+  # Порядок сбора данных. Код v1 использует это для prompt context; часть старого engine ещё хранит свои guards. /app/data/admin_profile.py, /app/ai/parser.py, /app/ai/admin_prompt.md
+  required_order:
+    - "service_type"
+    - "date"
+    - "service_variant"
+    - "time"
+    - "duration"
+    - "guests_count"
+    - "upsell_items"
+    - "client_name"
+    - "phone"
+    - "confirmation"
+  # Человеческие вопросы для каждого шага. Используются быстрыми fallback-вопросами. /app/data/admin_profile.py, /app/dialog/dialog_guard.py, /app/ai/admin_prompt.md
+  questions:
+    service_type: "что хотите забронировать — беседку, баню, дом или тёплую беседку?"
+    date: "на какую дату планируете?"
+    service_variant: "какую беседку выбираем?"
+    time: "во сколько планируете приехать?"
+    duration: "на сколько часов бронируем?"
+    guests_count: "сколько вас будет человек?"
+    upsell_items: "нужны ли допы — уголь, розжиг, лёд, посуда или кальян?"
+    client_name: "как вас записать?"
+    phone: "оставьте номер телефона для брони."
+    confirmation: "проверьте заявку и подтвердите, если всё верно."
+    fallback: "чем могу помочь?"
+  # Поля, которые AI не должен собирать как часть заявки. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  ignored_fields:
+    - "event_format"
+  # Нужно ли предлагать дополнительные услуги в сценарии; если false или addons пустой, шаг допов пропускается. /app/data/admin_profile.py, /app/dialog/state.py, /app/dialog/engine.py, /app/ai/parser.py
+  upsell_enabled: true
+  # Сколько раз максимум мягко предлагать допы до перехода к контактам. /app/data/admin_profile.py, /app/dialog/engine.py, /app/ai/parser.py
+  max_upsell_offers: 2
+
+payment:
+  # Секция payment попадает в prompt policy и расчёт предоплаты. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/dialog/payment.py
+  # Включена ли предоплата в бизнес-сценарии. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  enabled: true
+  # Доля предоплаты. Backend считает фактическую сумму и клиентский текст ссылки по этому проценту. /app/dialog/payment.py, /app/dialog/engine.py, /app/dialog/post_payment_message.py, /app/data/admin_profile.py
+  prepayment_percent: 50
+  # Формулировка про срок жизни ссылки. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/ai/parser.py
+  link_lifetime_text: "Ссылка на оплату действует ограниченное время, обычно около часа."
+  # Правило подтверждения для AI. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  confirmation_rule: "Бронь считается подтверждённой только после успешной оплаты."
+  # Что говорить, если клиент планирует оплатить позже. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  later_payment_text: "Когда будете готовы оплатить, напишите мне — я отправлю новую актуальную ссылку."
+
+cancellation:
+  # Секция cancellation сейчас в основном идёт в prompt policy; часть guards ещё в engine. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/dialog/engine.py
+  # За сколько дней можно вернуть предоплату; сейчас справочная настройка v2. /app/dialog/engine.py
+  refund_days: 7
+  # Клиентская политика отмены. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/ai/parser.py
+  policy_text: "При отмене за 7 дней или раньше предоплата возвращается. Если до даты бронирования меньше 7 дней, предоплата не возвращается; лучше предложить перенос."
+  # Отмена и перенос всегда через подтверждение клиента; сейчас справочная настройка v2. /app/dialog/engine.py
+  require_confirmation: true
+
+post_payment:
+  # Секция post_payment формирует сообщения после оплаты. /app/dialog/post_payment_message.py, /app/dialog/payment_status.py
+  # Тексты после успешной оплаты. Это не секреты, а клиентская памятка. /app/dialog/post_payment_message.py
+  paid_received_text: "Оплату получила ✅"
+  # Подтверждение после оплаты. Если меняете сферу бизнеса, замените слово «бронь» на «запись». /app/dialog/post_payment_message.py
+  confirmed_text: "Бронь подтверждена. Ждём вас!"
+  # Ключ инструкции по умолчанию, если у услуги нет своего ключа. /app/dialog/post_payment_message.py
+  default_instruction_key: "default"
+  # Общие памятки после оплаты. Идут после видеоинструкции, если include_common_info=true. /app/dialog/post_payment_message.py
+  common_info:
+    - "Мы хотим, чтобы ваш визит прошёл максимально комфортно, поэтому хотели бы поделиться общей информацией перед вашим приходом: рекомендуем с собой взять одноразовую посуду, приборы, скатерть."
+    - "А также проинформируем вас: если вы забронировали баню с бассейном, то с вениками нельзя."
+    - "На нашей территории допускается использование только угля в мангале. Использование дров запрещено."
+    - "И обращаем ваше внимание: музыку на нашей базе можно включать громко до 23:00."
+  # Видео и памятки по типам объектов. Ключ выбирается из service.post_payment_instruction_key или variant.post_payment_instruction_key. /app/dialog/post_payment_message.py
+  instructions:
+    default:
+      header: ""
+      video_url: ""
+      include_common_info: true
+    bathhouse:
+      header: "Видеоинструкция по приезде в баню с бассейном:"
+      video_url: "https://disk.yandex.ru/d/vc7ki6Pm3LPYQA"
+      include_common_info: true
+    closed_gazebo:
+      header: "Видеоинструкция по приезде в закрытую беседку:"
+      video_url: "https://disk.yandex.ru/d/ShvGhGJnC1Z3AQ"
+      include_common_info: true
+    house:
+      header: "Видеоинструкция по приезде в гостевой дом:"
+      video_url: "https://disk.yandex.ru/d/h1TZWkUYHoCUoA"
+      include_common_info: true
+    gazebo:
+      header: ""
+      video_url: ""
+      include_common_info: true
+
+addons:
+  # Секция addons собирается в addons.catalog для AI; выбранные допы обрабатывает engine. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/ai/parser.py, /app/dialog/engine.py
+  # Дополнительные услуги. AI предлагает их после основных полей заявки. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  - key: "mangal_set_1"
+    title: "Мангальный набор №1"
+    aliases: ["решётка", "решетка", "кочерга", "опахало", "мангальный набор"]
+    price: 500
+    description: "решётка, кочерга, опахало"
+    offer_text: "Если не хотите везти принадлежности для мангала, можно взять набор на месте."
+  - key: "mangal_set_2"
+    title: "Мангальный набор №2"
+    aliases: ["шампуры", "кочерга", "опахало"]
+    price: 1000
+    description: "шампуры, кочерга, опахало"
+    offer_text: "Для шашлыка удобнее сразу взять шампуры с кочергой и опахалом."
+  - key: "small_mangal_set"
+    title: "Малый мангальный набор"
+    aliases: ["маленькие шампура", "маленькие шампуры", "малый набор"]
+    price: 400
+    description: "маленькие шампуры, кочерга, опахало"
+    offer_text: "Для небольшой компании можно взять маленькие шампуры."
+  - key: "hookah"
+    title: "Кальян"
+    aliases: ["кальян", "забивка"]
+    price: 1500
+    description: "кальян с 1 забивкой и 5 углями"
+    offer_text: "Кальян можно заказать сразу при бронировании или уточнить у администратора на пляже."
+
+media:
+  # Секция media превращает requested_media в реальные файлы. /app/data/admin_profile.py, /app/bot/media.py, /app/bot/max.py, /app/bot/telegram.py
+  # Ключи media используются в requested_media от AI и превращаются в реальные файлы. /app/data/admin_profile.py, /app/ai/parser.py, /app/bot/media.py
+  # Чтобы заменить фото, положите новый файл в app/images и поменяйте path ниже; smoke-тест проверяет, что файл существует. /app/bot/media.py, /tests/admin_profile_smoke.py
+  # media_key в services или variants должен точно совпадать с ключом из media.items, иначе бот не найдёт нужное фото. /app/data/admin_profile.py, /app/dialog/engine.py, /app/bot/media.py
+  # aliases помогают AI понять фразы клиента вроде "покажи фото бани" или "скинь кабинет". /app/ai/parser.py
+  items:
+    bathhouse:
+      title: "Баня с бассейном"
+      path: "app/images/banya.jpg"
+      aliases: ["баня", "баня с бассейном", "bathhouse"]
+    house:
+      title: "Гостевой дом"
+      path: "app/images/dom_gostevoy.jpg"
+      aliases: ["дом", "гостевой дом", "house"]
+    warm_gazebo:
+      title: "Тёплая беседка"
+      path: "app/images/besedka_teplaya.jpg"
+      aliases: ["тёплая беседка", "теплая беседка", "warm_gazebo"]
+    "Крытая беседка":
+      title: "Крытая беседка"
+      path: "app/images/besedka_krytaya.jpg"
+      aliases: ["крытая беседка", "крытая"]
+    "Беседка №1":
+      title: "Беседка №1"
+      path: "app/images/besedka1.jpg"
+      aliases: ["беседка 1", "беседка №1"]
+    "Беседка №2":
+      title: "Беседка №2"
+      path: "app/images/besedka2.jpg"
+      aliases: ["беседка 2", "беседка №2"]
+    "Беседка №3":
+      title: "Беседка №3"
+      path: "app/images/besedka3.jpg"
+      aliases: ["беседка 3", "беседка №3"]
+    "Беседка №4":
+      title: "Беседка №4"
+      path: "app/images/besedka4.jpg"
+      aliases: ["беседка 4", "беседка №4"]
+    "Беседка №5":
+      title: "Беседка №5"
+      path: "app/images/besedka5.jpg"
+      aliases: ["беседка 5", "беседка №5"]
+    "Беседка №6":
+      title: "Беседка №6"
+      path: "app/images/besedka6.jpg"
+      aliases: ["беседка 6", "беседка №6"]
+    "Беседка №8":
+      title: "Беседка №8"
+      path: "app/images/besedka8.jpg"
+      aliases: ["беседка 8", "беседка №8"]
+
+services:
+  # Секция services читается через compatibility API. /app/data/services.py, /app/dialog/state.py, /app/dialog/pricing.py, /app/dialog/availability.py, /app/dialog/engine.py, /app/ai/parser.py
+  # Обычные беседки. requires_variant=true значит клиент должен выбрать конкретную беседку. /app/dialog/state.py, /app/dialog/availability.py, /app/ai/parser.py
+  gazebo:
+    title: "Беседка"
+    public_title: "беседка"
+    aliases: ["беседка", "беседки", "обычная беседка", "летняя беседка", "gazebo"]
+    yclients_service_id: ""
+    yclients_staff_id: ""
+    default_duration_minutes: 1440
+    block_full_day_on_any_booking: true
+    requires_variant: true
+    requires_duration: true
+    requires_guests_count: true
+    collect_duration_before_time: false
+    knowledge_anchor: "gazebo"
+    post_payment_instruction_key: "gazebo"
+    variants:
+      - title: "Беседка №1"
+        facility_id: "gazebo-1"
+        aliases: ["беседка 1", "первая беседка"]
+        media_key: "Беседка №1"
+        yclients_service_id: "18201055"
+        yclients_staff_id: "3828146"
+        capacity_max: 50
+        price: 10500
+      - title: "Беседка №2"
+        facility_id: "gazebo-2"
+        aliases: ["беседка 2", "вторая беседка"]
+        media_key: "Беседка №2"
+        yclients_service_id: "18201056"
+        yclients_staff_id: "3828147"
+        capacity_max: 15
+        price: 3200
+      - title: "Беседка №3"
+        facility_id: "gazebo-3"
+        aliases: ["беседка 3", "третья беседка"]
+        media_key: "Беседка №3"
+        yclients_service_id: "18201059"
+        yclients_staff_id: "3828149"
+        capacity_max: 20
+        price: 5800
+      - title: "Беседка №4"
+        facility_id: "gazebo-4"
+        aliases: ["беседка 4", "четвёртая беседка", "четвертая беседка"]
+        media_key: "Беседка №4"
+        yclients_service_id: "18201061"
+        yclients_staff_id: "3828151"
+        capacity_max: 15
+        price: 3200
+      - title: "Беседка №5"
+        facility_id: "gazebo-5"
+        aliases: ["беседка 5", "пятая беседка"]
+        media_key: "Беседка №5"
+        yclients_service_id: "18201062"
+        yclients_staff_id: "3828153"
+        capacity_max: 10
+        price: 3200
+      - title: "Беседка №6"
+        facility_id: "gazebo-6"
+        aliases: ["беседка 6", "шестая беседка"]
+        media_key: "Беседка №6"
+        yclients_service_id: "18201063"
+        yclients_staff_id: "3828161"
+        capacity_max: 15
+        price: 3200
+      - title: "Беседка №8"
+        facility_id: "gazebo-8"
+        aliases: ["беседка 8", "восьмая беседка"]
+        media_key: "Беседка №8"
+        yclients_service_id: "18201065"
+        yclients_staff_id: "3684379"
+        capacity_max: 20
+        price: 3800
+      - title: "Крытая беседка"
+        facility_id: "gazebo-covered"
+        aliases: ["крытая", "крытая беседка"]
+        media_key: "Крытая беседка"
+        post_payment_instruction_key: "closed_gazebo"
+        yclients_service_id: "19196656"
+        yclients_staff_id: "3827420"
+        capacity_max: 20
+        price: 5800
+
+  # Баня с бассейном. collect_duration_before_time=true сохраняет старое правило: сначала длительность, потом точное время. /app/dialog/state.py, /app/dialog/availability.py, /app/dialog/engine.py
+  bathhouse:
+    title: "Баня"
+    facility_id: "bathhouse"
+    public_title: "баня с бассейном"
+    aliases: ["баня", "баня с бассейном", "бассейн", "bathhouse"]
+    media_key: "bathhouse"
+    post_payment_instruction_key: "bathhouse"
+    sleep_capacity_max: 5
+    capacity_max: 15
+    yclients_service_id: "18201031"
+    yclients_staff_id: "3653144"
+    default_duration_minutes: 180
+    require_duration_before_availability: true
+    collect_duration_before_time: true
+    block_full_day_on_any_booking: true
+    requires_variant: false
+    requires_duration: true
+    requires_guests_count: true
+    knowledge_anchor: "bathhouse"
+    price_rules:
+      extra_hour_after_minutes: 420
+      extra_hour_price: 1500
+      extra_hour_instruction: "Если клиент просит 8 часов или больше, это разрешено при доступности варианта на 7 часов. Не говори, что максимум 7 часов."
+    variants:
+      - title: "Баня с бассейном, 3 часа"
+        yclients_service_id: "18201031"
+        yclients_staff_id: "3653144"
+        duration_minutes: 180
+        weekdays: [0, 1, 2, 3]
+        price: 6300
+      - title: "Баня с бассейном, 3 часа"
+        yclients_service_id: "18201032"
+        yclients_staff_id: "3653144"
+        duration_minutes: 180
+        weekdays: [4, 5, 6]
+        price: 7950
+      - title: "Баня с бассейном, 4 часа"
+        yclients_service_id: "18201033"
+        yclients_staff_id: "3653144"
+        duration_minutes: 240
+        weekdays: [0, 1, 2, 3]
+        price: 8400
+      - title: "Баня с бассейном, 4 часа"
+        yclients_service_id: "18201034"
+        yclients_staff_id: "3653144"
+        duration_minutes: 240
+        weekdays: [4, 5, 6]
+        price: 10600
+      - title: "Баня с бассейном, 5 часов"
+        yclients_service_id: "18201035"
+        yclients_staff_id: "3653144"
+        duration_minutes: 300
+        weekdays: [0, 1, 2, 3]
+        price: 10500
+      - title: "Баня с бассейном, 5 часов"
+        yclients_service_id: "18201036"
+        yclients_staff_id: "3653144"
+        duration_minutes: 300
+        weekdays: [4, 5, 6]
+        price: 13250
+      - title: "Баня с бассейном, 6 часов"
+        yclients_service_id: "18490331"
+        yclients_staff_id: "3653144"
+        duration_minutes: 360
+        weekdays: [0, 1, 2, 3]
+        price: 12600
+      - title: "Баня с бассейном, 6 часов"
+        yclients_service_id: "18490318"
+        yclients_staff_id: "3653144"
+        duration_minutes: 360
+        weekdays: [4, 5, 6]
+        price: 15900
+      - title: "Баня с бассейном, 7 часов"
+        yclients_service_id: "18490341"
+        yclients_staff_id: "3653144"
+        duration_minutes: 420
+        weekdays: [0, 1, 2, 3]
+        price: 14700
+      - title: "Баня с бассейном, 7 часов"
+        yclients_service_id: "18490354"
+        yclients_staff_id: "3653144"
+        duration_minutes: 420
+        weekdays: [4, 5, 6]
+        price: 18550
+
+  warm_gazebo:
+    title: "Теплая беседка"
+    facility_id: "warm-gazebo"
+    public_title: "тёплая беседка"
+    aliases: ["тёплая беседка", "теплая беседка", "тёплая", "теплая", "warm_gazebo"]
+    media_key: "warm_gazebo"
+    post_payment_instruction_key: "closed_gazebo"
+    yclients_service_id: "18201071"
+    yclients_staff_id: "3665340"
+    default_duration_minutes: 1440
+    block_full_day_on_any_booking: true
+    business_day_cutoff: "12:00"
+    requires_variant: false
+    requires_duration: true
+    requires_guests_count: true
+    collect_duration_before_time: false
+    knowledge_anchor: "warm_gazebo"
+    capacity_max: 30
+    price: 14700
+
+  summer_gazebo:
+    title: "Летняя беседка"
+    public_title: "летняя беседка"
+    aliases: ["летняя беседка", "летняя", "summer_gazebo"]
+    yclients_service_id: ""
+    yclients_staff_id: ""
+    default_duration_minutes: 1440
+    block_full_day_on_any_booking: true
+    requires_variant: false
+    requires_duration: true
+    requires_guests_count: true
+    collect_duration_before_time: false
+    knowledge_anchor: "summer_gazebo"
+
+  house:
+    title: "Дом"
+    facility_id: "house"
+    public_title: "гостевой дом"
+    aliases: ["дом", "гостевой дом", "гостевой", "house"]
+    media_key: "house"
+    post_payment_instruction_key: "house"
+    yclients_service_id: "18201039"
+    yclients_staff_id: "3665307"
+    default_duration_minutes: 1440
+    block_full_day_on_any_booking: true
+    requires_variant: false
+    requires_duration: true
+    requires_guests_count: true
+    collect_duration_before_time: false
+    knowledge_anchor: "house"
+    price_rules:
+      map_duration_ranges:
+        - min_exclusive_minutes: 420
+          max_inclusive_minutes: 1440
+          target_duration_minutes: 1440
+    variants:
+      - title: "Гостевой дом, 4 часа"
+        yclients_service_id: "18201042"
+        yclients_staff_id: "3665307"
+        duration_minutes: 240
+        weekdays: [0, 1, 2, 3]
+        price: 6400
+      - title: "Гостевой дом, 4 часа"
+        yclients_service_id: "18201043"
+        yclients_staff_id: "3665307"
+        duration_minutes: 240
+        weekdays: [4, 5, 6]
+        price: 6400
+      - title: "Гостевой дом, 5 часов"
+        yclients_service_id: "18201045"
+        yclients_staff_id: "3665307"
+        duration_minutes: 300
+        weekdays: [0, 1, 2, 3]
+        price: 8000
+      - title: "Гостевой дом, 5 часов"
+        yclients_service_id: "18201046"
+        yclients_staff_id: "3665307"
+        duration_minutes: 300
+        weekdays: [4, 5, 6]
+        price: 8000
+      - title: "Гостевой дом, 6 часов"
+        yclients_service_id: "18201047"
+        yclients_staff_id: "3665307"
+        duration_minutes: 360
+        weekdays: [0, 1, 2, 3]
+        price: 9600
+      - title: "Гостевой дом, 6 часов"
+        yclients_service_id: "18201048"
+        yclients_staff_id: "3665307"
+        duration_minutes: 360
+        weekdays: [4, 5, 6]
+        price: 9600
+      - title: "Гостевой дом, 7 часов"
+        yclients_service_id: "18428699"
+        yclients_staff_id: "3665307"
+        duration_minutes: 420
+        weekdays: [0, 1, 2, 3]
+        price: 11200
+      - title: "Гостевой дом, 7 часов"
+        yclients_service_id: "18428677"
+        yclients_staff_id: "3665307"
+        duration_minutes: 420
+        weekdays: [4, 5, 6]
+        price: 11200
+      - title: "Гостевой дом, сутки"
+        yclients_service_id: "18201039"
+        yclients_staff_id: "3665307"
+        duration_minutes: 1440
+        weekdays: [0, 1, 2, 3]
+        price: 10500
+      - title: "Гостевой дом, сутки"
+        yclients_service_id: "18201041"
+        yclients_staff_id: "3665307"
+        duration_minutes: 1440
+        weekdays: [4, 5, 6]
+        price: 12600
+
+  gazebo_bathhouse:
+    title: "Беседка + баня"
+    public_title: "беседка + баня"
+    aliases: ["беседка + баня", "баня и беседка", "комплекс"]
+    yclients_service_id: ""
+    yclients_staff_id: ""
+    default_duration_minutes: 180
+    block_full_day_on_any_booking: true
+    requires_variant: false
+    requires_duration: true
+    requires_guests_count: true
+    collect_duration_before_time: false
+    knowledge_anchor: "gazebo_bathhouse"
+
+knowledge:
+  # Секция knowledge собирается в build_profile_knowledge(). /app/data/admin_profile.py, /app/ai/parser.py, /app/ai/admin_prompt.md
+  # Общие факты попадают в LLM context вместо отдельного knowledge.md. /app/data/admin_profile.py, /app/ai/parser.py
+  summary: |
+    База отдыха «Причал» находится в Выксе, на пляже Максима Горького.
+    Для бронирования нужна предоплата 50% от итоговой стоимости.
+    После оплаты объект закрепляется за клиентом на выбранную дату.
+    Оставшуюся сумму можно оплатить по факту приезда администратору.
+  source_files:
+    - "business_profile/knowledge.md"
+  facts:
+    - "Крытая беседка находится на Белом песке / Беленьком песочке."
+    - "Баня с бассейном — до 15 человек."
+    - "Тёплая беседка — до 30 человек."
+    - "Дом — до 20 человек для праздника или мероприятия."
+    - "Ночевать в доме могут до 5 человек."
+    - "Беседка обычно бронируется на сутки — освободить нужно до 08:00 следующего дня."
+    - "В мангале можно использовать только угли; дрова, доски и мусор жечь нельзя."
+  faq:
+    - question: "До скольки можно быть?"
+      answer: "Беседка бронируется на сутки — до 08:00 утра следующего дня."
+    - question: "Что брать с собой?"
+      answer: "Скатерть, посуду, стаканы, салфетки, питьевую воду, продукты, уголь и розжиг. Мангал входит в стоимость беседки."
+    - question: "Мангал входит?"
+      answer: "Да, мангал входит в стоимость беседки. Мангальные принадлежности оплачиваются отдельно, если клиенту нужны решётки, шампуры, кочерга или опахало."
+    - question: "Можно ли фейерверк?"
+      answer: "Мы рекомендуем отказаться от фейерверков ради безопасности. Если всё же планируете запуск, согласуйте место с администратором."
+
+prompt_rules:
+  # Секция prompt_rules собирается в prompt.extra_rules. /app/data/admin_profile.py, /app/ai/admin_prompt.md, /app/ai/router_prompt.md
+  # Эти правила добавляются в системные промпты как переменная. /app/data/admin_profile.py, /app/ai/admin_prompt.md
+  universal:
+    - "Не показывай клиенту технические слова: JSON, API, backend, YCLIENTS, slot, payment_id, record_id."
+    - "Не выдумывай цены, доступность, скидки, платежи, записи и внутренние id."
+    - "Рекомендация объекта не равна выбору клиента: записывай service_type/service_variant только после явного выбора."
+    - "Если клиент задаёт вопрос и одновременно даёт данные, сначала ответь на вопрос, потом продолжи сбор заявки."
+    - "Отмена и перенос выполняются только после явного подтверждения клиента."
+  project_specific:
+    - "Формат отдыха не входит в заявку и не должен отдельно собираться."
+    - "Если расписания на дальнюю дату нет, дай телефон администратора и предложи уточнить позже."
