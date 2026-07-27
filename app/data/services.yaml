@@ -1,0 +1,227 @@
+# Машинная карта для кода.
+# Здесь хранятся ID из YCLIENTS. Этот файл читает Python.
+#
+# Как заполнять:
+# 1. Откройте YCLIENTS и найдите ID услуги и ID сотрудника/ресурса.
+# 2. Впишите их в yclients_service_id и yclients_staff_id.
+# 3. Человеческие описания, фото и рекомендации храните в app/knowledge/objects.md.
+#
+# yclients_service_id — ID услуги из YCLIENTS.
+# yclients_staff_id — ID сотрудника/ресурса/объекта из YCLIENTS.
+# default_duration_minutes — длительность по умолчанию, если клиент не указал.
+
+gazebo:
+  title: "Беседка"
+  yclients_service_id: ""
+  yclients_staff_id: ""
+  default_duration_minutes: 1440
+  block_full_day_on_any_booking: true
+  knowledge_anchor: "gazebo"
+  variants:
+    - title: "Беседка №1"
+      yclients_service_id: "18201055"
+      yclients_staff_id: "3828146"
+      capacity_max: 50
+      price: 10500
+    - title: "Беседка №2"
+      yclients_service_id: "18201056"
+      yclients_staff_id: "3828147"
+      capacity_max: 15
+      price: 3200
+    - title: "Беседка №3"
+      yclients_service_id: "18201059"
+      yclients_staff_id: "3828149"
+      capacity_max: 20
+      price: 5800
+    - title: "Беседка №4"
+      yclients_service_id: "18201061"
+      yclients_staff_id: "3828151"
+      capacity_max: 15
+      price: 3200
+    - title: "Беседка №5"
+      yclients_service_id: "18201062"
+      yclients_staff_id: "3828153"
+      capacity_max: 10
+      price: 3200
+    - title: "Беседка №6"
+      yclients_service_id: "18201063"
+      yclients_staff_id: "3828161"
+      capacity_max: 15
+      price: 3200
+    - title: "Беседка №8"
+      yclients_service_id: "18201065"
+      yclients_staff_id: "3684379"
+      capacity_max: 20
+      price: 3800
+    - title: "Крытая беседка"
+      yclients_service_id: "19196656"
+      yclients_staff_id: "3827420"
+      capacity_max: 20
+      price: 5800
+
+bathhouse:
+  title: "Баня"
+  sleep_capacity_max: 5
+  capacity_max: 20
+  yclients_service_id: "18201031"
+  yclients_staff_id: "3653144"
+  default_duration_minutes: 180
+  require_duration_before_availability: true
+  block_full_day_on_any_booking: true
+  knowledge_anchor: "bathhouse"
+  variants:
+    - title: "Баня с бассейном, 3 часа"
+      yclients_service_id: "18201031"
+      yclients_staff_id: "3653144"
+      duration_minutes: 180
+      weekdays: [0, 1, 2, 3]
+      price: 6300
+    - title: "Баня с бассейном, 3 часа"
+      yclients_service_id: "18201032"
+      yclients_staff_id: "3653144"
+      duration_minutes: 180
+      weekdays: [4, 5, 6]
+      price: 7950
+    - title: "Баня с бассейном, 4 часа"
+      yclients_service_id: "18201033"
+      yclients_staff_id: "3653144"
+      duration_minutes: 240
+      weekdays: [0, 1, 2, 3]
+      price: 8400
+    - title: "Баня с бассейном, 4 часа"
+      yclients_service_id: "18201034"
+      yclients_staff_id: "3653144"
+      duration_minutes: 240
+      weekdays: [4, 5, 6]
+      price: 10600
+    - title: "Баня с бассейном, 5 часов"
+      yclients_service_id: "18201035"
+      yclients_staff_id: "3653144"
+      duration_minutes: 300
+      weekdays: [0, 1, 2, 3]
+      price: 10500
+    - title: "Баня с бассейном, 5 часов"
+      yclients_service_id: "18201036"
+      yclients_staff_id: "3653144"
+      duration_minutes: 300
+      weekdays: [4, 5, 6]
+      price: 13250
+    - title: "Баня с бассейном, 6 часов"
+      yclients_service_id: "18490331"
+      yclients_staff_id: "3653144"
+      duration_minutes: 360
+      weekdays: [0, 1, 2, 3]
+      price: 12600
+    - title: "Баня с бассейном, 6 часов"
+      yclients_service_id: "18490318"
+      yclients_staff_id: "3653144"
+      duration_minutes: 360
+      weekdays: [4, 5, 6]
+      price: 15900
+    - title: "Баня с бассейном, 7 часов"
+      yclients_service_id: "18490341"
+      yclients_staff_id: "3653144"
+      duration_minutes: 420
+      weekdays: [0, 1, 2, 3]
+      price: 14700
+    - title: "Баня с бассейном, 7 часов"
+      yclients_service_id: "18490354"
+      yclients_staff_id: "3653144"
+      duration_minutes: 420
+      weekdays: [4, 5, 6]
+      price: 18550
+warm_gazebo:
+  title: "Теплая беседка"
+  yclients_service_id: "18201071"
+  yclients_staff_id: "3665340"
+  default_duration_minutes: 1440
+  block_full_day_on_any_booking: true
+  business_day_cutoff: "12:00"
+  knowledge_anchor: "warm_gazebo"
+  capacity_max: 30
+  price: 14700
+
+summer_gazebo:
+  title: "Летняя беседка"
+  yclients_service_id: ""
+  yclients_staff_id: ""
+  default_duration_minutes: 1440
+  block_full_day_on_any_booking: true
+  knowledge_anchor: "summer_gazebo"
+
+house:
+  title: "Дом"
+  yclients_service_id: "18201039"
+  yclients_staff_id: "3665307"
+  default_duration_minutes: 1440
+  block_full_day_on_any_booking: true
+  knowledge_anchor: "house"
+  variants:
+    - title: "Гостевой дом, 4 часа"
+      yclients_service_id: "18201042"
+      yclients_staff_id: "3665307"
+      duration_minutes: 240
+      weekdays: [0, 1, 2, 3]
+      price: 6400
+    - title: "Гостевой дом, 4 часа"
+      yclients_service_id: "18201043"
+      yclients_staff_id: "3665307"
+      duration_minutes: 240
+      weekdays: [4, 5, 6]
+      price: 6400
+    - title: "Гостевой дом, 5 часов"
+      yclients_service_id: "18201045"
+      yclients_staff_id: "3665307"
+      duration_minutes: 300
+      weekdays: [0, 1, 2, 3]
+      price: 8000
+    - title: "Гостевой дом, 5 часов"
+      yclients_service_id: "18201046"
+      yclients_staff_id: "3665307"
+      duration_minutes: 300
+      weekdays: [4, 5, 6]
+      price: 8000
+    - title: "Гостевой дом, 6 часов"
+      yclients_service_id: "18201047"
+      yclients_staff_id: "3665307"
+      duration_minutes: 360
+      weekdays: [0, 1, 2, 3]
+      price: 9600
+    - title: "Гостевой дом, 6 часов"
+      yclients_service_id: "18201048"
+      yclients_staff_id: "3665307"
+      duration_minutes: 360
+      weekdays: [4, 5, 6]
+      price: 9600
+    - title: "Гостевой дом, 7 часов"
+      yclients_service_id: "18428699"
+      yclients_staff_id: "3665307"
+      duration_minutes: 420
+      weekdays: [0, 1, 2, 3]
+      price: 11200
+    - title: "Гостевой дом, 7 часов"
+      yclients_service_id: "18428677"
+      yclients_staff_id: "3665307"
+      duration_minutes: 420
+      weekdays: [4, 5, 6]
+      price: 11200
+    - title: "Гостевой дом, сутки"
+      yclients_service_id: "18201039"
+      yclients_staff_id: "3665307"
+      duration_minutes: 1440
+      weekdays: [0, 1, 2, 3]
+      price: 10500
+    - title: "Гостевой дом, сутки"
+      yclients_service_id: "18201041"
+      yclients_staff_id: "3665307"
+      duration_minutes: 1440
+      weekdays: [4, 5, 6]
+      price: 12600
+
+gazebo_bathhouse:
+  title: "Беседка + баня"
+  yclients_service_id: ""
+  yclients_staff_id: ""
+  default_duration_minutes: 180
+  block_full_day_on_any_booking: true
+  knowledge_anchor: "gazebo_bathhouse"

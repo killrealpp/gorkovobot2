@@ -1,0 +1,19 @@
+assistant_name: Любовь
+customer_reply_rules:
+  forbidden_terms:
+    - YCLIENTS
+    - backend
+    - API
+    - JSON
+    - action
+    - database
+    - system
+    - интеграция
+  forbidden_markdown:
+    - "**"
+    - "__"
+  forbid_photo_promises: true
+booking_rules:
+  payment_required_before_final_booking: true
+  create_booking_only_after_payment: true
+  hold_before_payment: true

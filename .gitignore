@@ -1,8 +1,8 @@
 # Secrets and local environment
-.env
-.env.*
-!.env.example
-!.env.template
+/.env
+/.env.*
+!/.env.example
+!/.env.template
 
 # Python
 __pycache__/
@@ -16,14 +16,14 @@ __pycache__/
 htmlcov/
 
 # Virtual environments
-.venv/
-venv/
-env/
-ENV/
+/.venv/
+/venv/
+/env/
+/ENV/
 
 # Local runtime data
-data/
-logs/
+/data/
+/logs/
 *.log
 *.pid
 *.db
@@ -32,9 +32,9 @@ logs/
 bot.sqlite3
 
 # Temporary and generated files
-tmp/
-temp/
-reports/
+/tmp/
+/temp/
+/reports/
 *.bak
 *.bak_*
 *.tmp
@@ -49,14 +49,14 @@ desktop.ini
 .vscode/
 
 # Local dev tooling caches
-.graphify/
-.graphifyignore
-graphify-out/
-.headroom/
-scripts/codex-headroom.ps1
-scripts/graphify-build.ps1
-scripts/headroom-*.ps1
-scripts/tooling-status.ps1
+/.graphify/
+/.graphifyignore
+/graphify-out/
+/.headroom/
+/scripts/codex-headroom.ps1
+/scripts/graphify-build.ps1
+/scripts/headroom-*.ps1
+/scripts/tooling-status.ps1
 
 # Local historical patch notes kept outside deploy commits
 DEPLOY_MAX.md
