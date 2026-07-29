@@ -309,10 +309,14 @@ def build_profile_knowledge() -> str:
 
     services = load_profile_services()
     lines.extend(["", "# Услуги"])
-    for key, service in services.items():
-        lines.append(_service_context_line(key, service))
-        for variant in service.get("variants") or []:
-            lines.append("  " + _variant_context_line(variant))
+    catalog_services = _catalog_services_for_prompt()
+    if catalog_services:
+        lines.extend(catalog_services.splitlines())
+    else:
+        for key, service in services.items():
+            lines.append(_service_context_line(key, service))
+            for variant in service.get("variants") or []:
+                lines.append("  " + _variant_context_line(variant))
 
     addons = addon_catalog()
     if addons:
@@ -474,6 +478,10 @@ def _format_list(items: list[Any], *, empty: str) -> str:
 
 
 def _format_services_for_prompt() -> str:
+    catalog_services = _catalog_services_for_prompt()
+    if catalog_services:
+        return catalog_services
+
     lines: list[str] = []
     for key, service in load_profile_services().items():
         lines.append(_service_context_line(key, service))
@@ -537,11 +545,33 @@ def _format_addons_for_prompt() -> str:
 
 
 def _format_media_for_prompt() -> str:
+    catalog_media = _catalog_media_for_prompt()
+    if catalog_media:
+        return catalog_media
+
     rows: list[str] = []
     for key, item in media_catalog().items():
         title = item.get("title") or key
         rows.append(f"- {key}: {title}")
     return "\n".join(rows) or "Фото не настроены."
+
+
+def _catalog_services_for_prompt() -> str:
+    try:
+        from app.catalog.reader import format_services_for_prompt
+
+        return format_services_for_prompt()
+    except Exception:
+        return ""
+
+
+def _catalog_media_for_prompt() -> str:
+    try:
+        from app.catalog.reader import format_media_for_prompt
+
+        return format_media_for_prompt()
+    except Exception:
+        return ""
 
 
 def _payment_policy(payment: dict[str, Any]) -> str:

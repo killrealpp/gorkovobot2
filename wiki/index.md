@@ -21,6 +21,7 @@ This wiki is the durable project memory for MaxBot 4. It was added as a preparat
 - [[preparation-execplan-2026-07-27]] - the active preparation ExecPlan.
 - [[stage-01-retention-report-execplan-2026-07-27]] - Stage 1 read-only retention report and dry-run cleanup ExecPlan.
 - [[stage-02-yaml-universalization-execplan-2026-07-27]] - Stage 2 business profile/YAML universalization ExecPlan.
+- [[public-catalog-api-execplan-2026-07-28]] - read-only public catalog API for external frontends.
 - [[log]] - chronological wiki maintenance log.
 
 ## Active Boundary

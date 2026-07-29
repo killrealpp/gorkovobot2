@@ -1,0 +1,1995 @@
+{
+  "schema_version": "public_catalog.v1",
+  "generated_at": "fixture",
+  "source": {
+    "catalog": "business_profile.admin_profile",
+    "profile_path": "business_profile/admin_profile.yaml",
+    "overridesApplied": false,
+    "availability": "mvp_availability_cache",
+    "liveAvailabilityChecked": false
+  },
+  "business": {
+    "name": "Причал",
+    "type": "база отдыха",
+    "city": "Выкса",
+    "address": "конец улицы Максима Горького, пляж Максима Горького",
+    "description": "Бронирование беседок, бани с бассейном, гостевого дома и тёплой беседки.",
+    "contact_phone": "89991369991",
+    "service_area_rule": "Если спрашивают про Русалочку или другой парк, отвечай, что бронирование ведётся только на парк Максима Горького."
+  },
+  "categories": [
+    {
+      "id": "gazebo",
+      "title": "беседка",
+      "service_ids": [
+        "gazebo"
+      ]
+    },
+    {
+      "id": "bathhouse",
+      "title": "баня с бассейном",
+      "service_ids": [
+        "bathhouse"
+      ]
+    },
+    {
+      "id": "warm_gazebo",
+      "title": "тёплая беседка",
+      "service_ids": [
+        "warm_gazebo"
+      ]
+    },
+    {
+      "id": "summer_gazebo",
+      "title": "летняя беседка",
+      "service_ids": [
+        "summer_gazebo"
+      ]
+    },
+    {
+      "id": "house",
+      "title": "гостевой дом",
+      "service_ids": [
+        "house"
+      ]
+    },
+    {
+      "id": "gazebo_bathhouse",
+      "title": "беседка + баня",
+      "service_ids": [
+        "gazebo_bathhouse"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "gazebo",
+      "category_id": "gazebo",
+      "title": "Беседка",
+      "publicTitle": "беседка",
+      "aliases": [
+        "беседка",
+        "беседки",
+        "обычная беседка",
+        "летняя беседка",
+        "gazebo"
+      ],
+      "facility_ids": [
+        "gazebo-1",
+        "gazebo-2",
+        "gazebo-3",
+        "gazebo-4",
+        "gazebo-5",
+        "gazebo-6",
+        "gazebo-8",
+        "gazebo-covered"
+      ],
+      "variant_ids": [
+        "gazebo-1",
+        "gazebo-2",
+        "gazebo-3",
+        "gazebo-4",
+        "gazebo-5",
+        "gazebo-6",
+        "gazebo-8",
+        "gazebo-covered"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-1:1440:all:1",
+        "tariff:gazebo-2:1440:all:2",
+        "tariff:gazebo-3:1440:all:3",
+        "tariff:gazebo-4:1440:all:4",
+        "tariff:gazebo-5:1440:all:5",
+        "tariff:gazebo-6:1440:all:6",
+        "tariff:gazebo-8:1440:all:7",
+        "tariff:gazebo-covered:1440:all:8"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo"
+      },
+      "warnings": []
+    },
+    {
+      "id": "bathhouse",
+      "category_id": "bathhouse",
+      "title": "Баня",
+      "publicTitle": "баня с бассейном",
+      "aliases": [
+        "баня",
+        "баня с бассейном",
+        "бассейн",
+        "bathhouse"
+      ],
+      "facility_ids": [
+        "bathhouse"
+      ],
+      "variant_ids": [
+        "bathhouse-option-1",
+        "bathhouse-option-2",
+        "bathhouse-option-3",
+        "bathhouse-option-4",
+        "bathhouse-option-5",
+        "bathhouse-option-6",
+        "bathhouse-option-7",
+        "bathhouse-option-8",
+        "bathhouse-option-9",
+        "bathhouse-option-10"
+      ],
+      "tariff_ids": [
+        "tariff:bathhouse:180:0-1-2-3:1",
+        "tariff:bathhouse:180:4-5-6:2",
+        "tariff:bathhouse:240:0-1-2-3:3",
+        "tariff:bathhouse:240:4-5-6:4",
+        "tariff:bathhouse:300:0-1-2-3:5",
+        "tariff:bathhouse:300:4-5-6:6",
+        "tariff:bathhouse:360:0-1-2-3:7",
+        "tariff:bathhouse:360:4-5-6:8",
+        "tariff:bathhouse:420:0-1-2-3:9",
+        "tariff:bathhouse:420:4-5-6:10"
+      ],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": true,
+        "defaultDurationMinutes": 180,
+        "blockFullDayOnAnyBooking": true,
+        "priceRules": {
+          "extra_hour_after_minutes": 420,
+          "extra_hour_price": 1500,
+          "extra_hour_instruction": "Если клиент просит 8 часов или больше, это разрешено при доступности варианта на 7 часов. Не говори, что максимум 7 часов."
+        },
+        "knowledgeAnchor": "bathhouse"
+      },
+      "warnings": []
+    },
+    {
+      "id": "warm_gazebo",
+      "category_id": "warm_gazebo",
+      "title": "Теплая беседка",
+      "publicTitle": "тёплая беседка",
+      "aliases": [
+        "тёплая беседка",
+        "теплая беседка",
+        "тёплая",
+        "теплая",
+        "warm_gazebo"
+      ],
+      "facility_ids": [
+        "warm-gazebo"
+      ],
+      "variant_ids": [],
+      "tariff_ids": [
+        "tariff:warm-gazebo:1440:all:1"
+      ],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "businessDayCutoff": "12:00",
+        "knowledgeAnchor": "warm_gazebo"
+      },
+      "warnings": []
+    },
+    {
+      "id": "summer_gazebo",
+      "category_id": "summer_gazebo",
+      "title": "Летняя беседка",
+      "publicTitle": "летняя беседка",
+      "aliases": [
+        "летняя беседка",
+        "летняя",
+        "summer_gazebo"
+      ],
+      "facility_ids": [],
+      "variant_ids": [],
+      "tariff_ids": [],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "summer_gazebo"
+      },
+      "warnings": [
+        {
+          "code": "not_exposed_as_facility",
+          "message": "Service has no concrete public facility, media, or public tariff in the current profile."
+        },
+        {
+          "code": "incomplete_public_catalog_item",
+          "message": "Service is present in the MaxBot profile but lacks enough data for a bookable public catalog item."
+        }
+      ]
+    },
+    {
+      "id": "house",
+      "category_id": "house",
+      "title": "Дом",
+      "publicTitle": "гостевой дом",
+      "aliases": [
+        "дом",
+        "гостевой дом",
+        "гостевой",
+        "house"
+      ],
+      "facility_ids": [
+        "house"
+      ],
+      "variant_ids": [
+        "house-option-1",
+        "house-option-2",
+        "house-option-3",
+        "house-option-4",
+        "house-option-5",
+        "house-option-6",
+        "house-option-7",
+        "house-option-8",
+        "house-option-9",
+        "house-option-10"
+      ],
+      "tariff_ids": [
+        "tariff:house:240:0-1-2-3:1",
+        "tariff:house:240:4-5-6:2",
+        "tariff:house:300:0-1-2-3:3",
+        "tariff:house:300:4-5-6:4",
+        "tariff:house:360:0-1-2-3:5",
+        "tariff:house:360:4-5-6:6",
+        "tariff:house:420:0-1-2-3:7",
+        "tariff:house:420:4-5-6:8",
+        "tariff:house:1440:0-1-2-3:9",
+        "tariff:house:1440:4-5-6:10"
+      ],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "priceRules": {
+          "map_duration_ranges": [
+            {
+              "min_exclusive_minutes": 420,
+              "max_inclusive_minutes": 1440,
+              "target_duration_minutes": 1440
+            }
+          ]
+        },
+        "knowledgeAnchor": "house"
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo_bathhouse",
+      "category_id": "gazebo_bathhouse",
+      "title": "Беседка + баня",
+      "publicTitle": "беседка + баня",
+      "aliases": [
+        "беседка + баня",
+        "баня и беседка",
+        "комплекс"
+      ],
+      "facility_ids": [],
+      "variant_ids": [],
+      "tariff_ids": [],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 180,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo_bathhouse"
+      },
+      "warnings": [
+        {
+          "code": "not_exposed_as_facility",
+          "message": "Service has no concrete public facility, media, or public tariff in the current profile."
+        },
+        {
+          "code": "incomplete_public_catalog_item",
+          "message": "Service is present in the MaxBot profile but lacks enough data for a bookable public catalog item."
+        }
+      ]
+    }
+  ],
+  "facilities": [
+    {
+      "id": "gazebo-1",
+      "service_id": "gazebo",
+      "title": "Беседка №1",
+      "publicTitle": "Беседка №1",
+      "aliases": [
+        "Беседка №1",
+        "беседка 1",
+        "первая беседка"
+      ],
+      "capacity": {
+        "max": 50
+      },
+      "mediaRefs": [
+        "Беседка №1"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-1:1440:all:1"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-2",
+      "service_id": "gazebo",
+      "title": "Беседка №2",
+      "publicTitle": "Беседка №2",
+      "aliases": [
+        "Беседка №2",
+        "беседка 2",
+        "вторая беседка"
+      ],
+      "capacity": {
+        "max": 15
+      },
+      "mediaRefs": [
+        "Беседка №2"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-2:1440:all:2"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-3",
+      "service_id": "gazebo",
+      "title": "Беседка №3",
+      "publicTitle": "Беседка №3",
+      "aliases": [
+        "Беседка №3",
+        "беседка 3",
+        "третья беседка"
+      ],
+      "capacity": {
+        "max": 20
+      },
+      "mediaRefs": [
+        "Беседка №3"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-3:1440:all:3"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-4",
+      "service_id": "gazebo",
+      "title": "Беседка №4",
+      "publicTitle": "Беседка №4",
+      "aliases": [
+        "Беседка №4",
+        "беседка 4",
+        "четвёртая беседка",
+        "четвертая беседка"
+      ],
+      "capacity": {
+        "max": 15
+      },
+      "mediaRefs": [
+        "Беседка №4"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-4:1440:all:4"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-5",
+      "service_id": "gazebo",
+      "title": "Беседка №5",
+      "publicTitle": "Беседка №5",
+      "aliases": [
+        "Беседка №5",
+        "беседка 5",
+        "пятая беседка"
+      ],
+      "capacity": {
+        "max": 10
+      },
+      "mediaRefs": [
+        "Беседка №5"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-5:1440:all:5"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-6",
+      "service_id": "gazebo",
+      "title": "Беседка №6",
+      "publicTitle": "Беседка №6",
+      "aliases": [
+        "Беседка №6",
+        "беседка 6",
+        "шестая беседка"
+      ],
+      "capacity": {
+        "max": 15
+      },
+      "mediaRefs": [
+        "Беседка №6"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-6:1440:all:6"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-8",
+      "service_id": "gazebo",
+      "title": "Беседка №8",
+      "publicTitle": "Беседка №8",
+      "aliases": [
+        "Беседка №8",
+        "беседка 8",
+        "восьмая беседка"
+      ],
+      "capacity": {
+        "max": 20
+      },
+      "mediaRefs": [
+        "Беседка №8"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-8:1440:all:7"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-covered",
+      "service_id": "gazebo",
+      "title": "Крытая беседка",
+      "publicTitle": "Крытая беседка",
+      "aliases": [
+        "Крытая беседка",
+        "крытая",
+        "крытая беседка"
+      ],
+      "capacity": {
+        "max": 20
+      },
+      "mediaRefs": [
+        "Крытая беседка"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-covered:1440:all:8"
+      ],
+      "rules": {
+        "requiresVariant": true,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "knowledgeAnchor": "gazebo",
+        "weekdays": []
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "bathhouse",
+      "service_id": "bathhouse",
+      "title": "Баня",
+      "publicTitle": "Баня с бассейном",
+      "aliases": [
+        "Баня",
+        "баня с бассейном",
+        "баня",
+        "бассейн",
+        "bathhouse"
+      ],
+      "capacity": {
+        "max": 15,
+        "sleepMax": 5
+      },
+      "mediaRefs": [
+        "bathhouse"
+      ],
+      "tariff_ids": [
+        "tariff:bathhouse:180:0-1-2-3:1",
+        "tariff:bathhouse:180:4-5-6:2",
+        "tariff:bathhouse:240:0-1-2-3:3",
+        "tariff:bathhouse:240:4-5-6:4",
+        "tariff:bathhouse:300:0-1-2-3:5",
+        "tariff:bathhouse:300:4-5-6:6",
+        "tariff:bathhouse:360:0-1-2-3:7",
+        "tariff:bathhouse:360:4-5-6:8",
+        "tariff:bathhouse:420:0-1-2-3:9",
+        "tariff:bathhouse:420:4-5-6:10"
+      ],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": true,
+        "defaultDurationMinutes": 180,
+        "blockFullDayOnAnyBooking": true,
+        "priceRules": {
+          "extra_hour_after_minutes": 420,
+          "extra_hour_price": 1500,
+          "extra_hour_instruction": "Если клиент просит 8 часов или больше, это разрешено при доступности варианта на 7 часов. Не говори, что максимум 7 часов."
+        },
+        "knowledgeAnchor": "bathhouse"
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "warm-gazebo",
+      "service_id": "warm_gazebo",
+      "title": "Тёплая беседка",
+      "publicTitle": "Тёплая беседка",
+      "aliases": [
+        "Теплая беседка",
+        "тёплая беседка",
+        "теплая беседка",
+        "тёплая",
+        "теплая",
+        "warm_gazebo"
+      ],
+      "capacity": {
+        "max": 30
+      },
+      "mediaRefs": [
+        "warm_gazebo"
+      ],
+      "tariff_ids": [
+        "tariff:warm-gazebo:1440:all:1"
+      ],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "businessDayCutoff": "12:00",
+        "knowledgeAnchor": "warm_gazebo"
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "house",
+      "service_id": "house",
+      "title": "Гостевой дом",
+      "publicTitle": "Гостевой дом",
+      "aliases": [
+        "Дом",
+        "гостевой дом",
+        "дом",
+        "гостевой",
+        "house"
+      ],
+      "capacity": {},
+      "mediaRefs": [
+        "house"
+      ],
+      "tariff_ids": [
+        "tariff:house:240:0-1-2-3:1",
+        "tariff:house:240:4-5-6:2",
+        "tariff:house:300:0-1-2-3:3",
+        "tariff:house:300:4-5-6:4",
+        "tariff:house:360:0-1-2-3:5",
+        "tariff:house:360:4-5-6:6",
+        "tariff:house:420:0-1-2-3:7",
+        "tariff:house:420:4-5-6:8",
+        "tariff:house:1440:0-1-2-3:9",
+        "tariff:house:1440:4-5-6:10"
+      ],
+      "rules": {
+        "requiresVariant": false,
+        "requiresDuration": true,
+        "requiresGuestsCount": true,
+        "collectDurationBeforeTime": false,
+        "defaultDurationMinutes": 1440,
+        "blockFullDayOnAnyBooking": true,
+        "priceRules": {
+          "map_duration_ranges": [
+            {
+              "min_exclusive_minutes": 420,
+              "max_inclusive_minutes": 1440,
+              "target_duration_minutes": 1440
+            }
+          ]
+        },
+        "knowledgeAnchor": "house"
+      },
+      "availability_state": {
+        "cacheState": "no-data",
+        "source": "mvp_availability_cache",
+        "liveAvailabilityChecked": false,
+        "dates": []
+      },
+      "warnings": []
+    }
+  ],
+  "variants": [
+    {
+      "id": "gazebo-1",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-1",
+      "title": "Беседка №1",
+      "aliases": [
+        "беседка 1",
+        "первая беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №1"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-1:1440:all:1"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-2",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-2",
+      "title": "Беседка №2",
+      "aliases": [
+        "беседка 2",
+        "вторая беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №2"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-2:1440:all:2"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-3",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-3",
+      "title": "Беседка №3",
+      "aliases": [
+        "беседка 3",
+        "третья беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №3"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-3:1440:all:3"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-4",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-4",
+      "title": "Беседка №4",
+      "aliases": [
+        "беседка 4",
+        "четвёртая беседка",
+        "четвертая беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №4"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-4:1440:all:4"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-5",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-5",
+      "title": "Беседка №5",
+      "aliases": [
+        "беседка 5",
+        "пятая беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №5"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-5:1440:all:5"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-6",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-6",
+      "title": "Беседка №6",
+      "aliases": [
+        "беседка 6",
+        "шестая беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №6"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-6:1440:all:6"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-8",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-8",
+      "title": "Беседка №8",
+      "aliases": [
+        "беседка 8",
+        "восьмая беседка"
+      ],
+      "mediaRefs": [
+        "Беседка №8"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-8:1440:all:7"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "gazebo-covered",
+      "kind": "facility",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-covered",
+      "title": "Крытая беседка",
+      "aliases": [
+        "крытая",
+        "крытая беседка"
+      ],
+      "mediaRefs": [
+        "Крытая беседка"
+      ],
+      "tariff_ids": [
+        "tariff:gazebo-covered:1440:all:8"
+      ],
+      "rules": {
+        "weekdays": []
+      },
+      "warnings": []
+    },
+    {
+      "id": "bathhouse-option-1",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 3 часа",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:180:0-1-2-3:1"
+      ],
+      "rules": {
+        "durationMinutes": 180,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-2",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 3 часа",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:180:4-5-6:2"
+      ],
+      "rules": {
+        "durationMinutes": 180,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-3",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 4 часа",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:240:0-1-2-3:3"
+      ],
+      "rules": {
+        "durationMinutes": 240,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-4",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 4 часа",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:240:4-5-6:4"
+      ],
+      "rules": {
+        "durationMinutes": 240,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-5",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 5 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:300:0-1-2-3:5"
+      ],
+      "rules": {
+        "durationMinutes": 300,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-6",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 5 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:300:4-5-6:6"
+      ],
+      "rules": {
+        "durationMinutes": 300,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-7",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 6 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:360:0-1-2-3:7"
+      ],
+      "rules": {
+        "durationMinutes": 360,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-8",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 6 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:360:4-5-6:8"
+      ],
+      "rules": {
+        "durationMinutes": 360,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-9",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 7 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:420:0-1-2-3:9"
+      ],
+      "rules": {
+        "durationMinutes": 420,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "bathhouse-option-10",
+      "kind": "tariff_option",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 7 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:bathhouse:420:4-5-6:10"
+      ],
+      "rules": {
+        "durationMinutes": 420,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "house-option-1",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 4 часа",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:240:0-1-2-3:1"
+      ],
+      "rules": {
+        "durationMinutes": 240,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "house-option-2",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 4 часа",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:240:4-5-6:2"
+      ],
+      "rules": {
+        "durationMinutes": 240,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "house-option-3",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 5 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:300:0-1-2-3:3"
+      ],
+      "rules": {
+        "durationMinutes": 300,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "house-option-4",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 5 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:300:4-5-6:4"
+      ],
+      "rules": {
+        "durationMinutes": 300,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "house-option-5",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 6 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:360:0-1-2-3:5"
+      ],
+      "rules": {
+        "durationMinutes": 360,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "house-option-6",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 6 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:360:4-5-6:6"
+      ],
+      "rules": {
+        "durationMinutes": 360,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "house-option-7",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 7 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:420:0-1-2-3:7"
+      ],
+      "rules": {
+        "durationMinutes": 420,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "house-option-8",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 7 часов",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:420:4-5-6:8"
+      ],
+      "rules": {
+        "durationMinutes": 420,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "house-option-9",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, сутки",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:1440:0-1-2-3:9"
+      ],
+      "rules": {
+        "durationMinutes": 1440,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "house-option-10",
+      "kind": "tariff_option",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, сутки",
+      "aliases": [],
+      "tariff_ids": [
+        "tariff:house:1440:4-5-6:10"
+      ],
+      "rules": {
+        "durationMinutes": 1440,
+        "weekdays": [
+          4,
+          5,
+          6
+        ]
+      }
+    }
+  ],
+  "tariffs": [
+    {
+      "id": "tariff:gazebo-1:1440:all:1",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-1",
+      "title": "Беседка №1",
+      "price": {
+        "amount": 10500,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-2:1440:all:2",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-2",
+      "title": "Беседка №2",
+      "price": {
+        "amount": 3200,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-3:1440:all:3",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-3",
+      "title": "Беседка №3",
+      "price": {
+        "amount": 5800,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-4:1440:all:4",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-4",
+      "title": "Беседка №4",
+      "price": {
+        "amount": 3200,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-5:1440:all:5",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-5",
+      "title": "Беседка №5",
+      "price": {
+        "amount": 3200,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-6:1440:all:6",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-6",
+      "title": "Беседка №6",
+      "price": {
+        "amount": 3200,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-8:1440:all:7",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-8",
+      "title": "Беседка №8",
+      "price": {
+        "amount": 3800,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:gazebo-covered:1440:all:8",
+      "service_id": "gazebo",
+      "facility_id": "gazebo-covered",
+      "title": "Крытая беседка",
+      "price": {
+        "amount": 5800,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:bathhouse:180:0-1-2-3:1",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 3 часа",
+      "price": {
+        "amount": 6300,
+        "currency": "RUB"
+      },
+      "duration_minutes": 180,
+      "duration_hours": 3,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:180:4-5-6:2",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 3 часа",
+      "price": {
+        "amount": 7950,
+        "currency": "RUB"
+      },
+      "duration_minutes": 180,
+      "duration_hours": 3,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:240:0-1-2-3:3",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 4 часа",
+      "price": {
+        "amount": 8400,
+        "currency": "RUB"
+      },
+      "duration_minutes": 240,
+      "duration_hours": 4,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:240:4-5-6:4",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 4 часа",
+      "price": {
+        "amount": 10600,
+        "currency": "RUB"
+      },
+      "duration_minutes": 240,
+      "duration_hours": 4,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:300:0-1-2-3:5",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 5 часов",
+      "price": {
+        "amount": 10500,
+        "currency": "RUB"
+      },
+      "duration_minutes": 300,
+      "duration_hours": 5,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:300:4-5-6:6",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 5 часов",
+      "price": {
+        "amount": 13250,
+        "currency": "RUB"
+      },
+      "duration_minutes": 300,
+      "duration_hours": 5,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:360:0-1-2-3:7",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 6 часов",
+      "price": {
+        "amount": 12600,
+        "currency": "RUB"
+      },
+      "duration_minutes": 360,
+      "duration_hours": 6,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:360:4-5-6:8",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 6 часов",
+      "price": {
+        "amount": 15900,
+        "currency": "RUB"
+      },
+      "duration_minutes": 360,
+      "duration_hours": 6,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:420:0-1-2-3:9",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 7 часов",
+      "price": {
+        "amount": 14700,
+        "currency": "RUB"
+      },
+      "duration_minutes": 420,
+      "duration_hours": 7,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:bathhouse:420:4-5-6:10",
+      "service_id": "bathhouse",
+      "facility_id": "bathhouse",
+      "title": "Баня с бассейном, 7 часов",
+      "price": {
+        "amount": 18550,
+        "currency": "RUB"
+      },
+      "duration_minutes": 420,
+      "duration_hours": 7,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:warm-gazebo:1440:all:1",
+      "service_id": "warm_gazebo",
+      "facility_id": "warm-gazebo",
+      "title": "Теплая беседка",
+      "price": {
+        "amount": 14700,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": []
+    },
+    {
+      "id": "tariff:house:240:0-1-2-3:1",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 4 часа",
+      "price": {
+        "amount": 6400,
+        "currency": "RUB"
+      },
+      "duration_minutes": 240,
+      "duration_hours": 4,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:house:240:4-5-6:2",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 4 часа",
+      "price": {
+        "amount": 6400,
+        "currency": "RUB"
+      },
+      "duration_minutes": 240,
+      "duration_hours": 4,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:house:300:0-1-2-3:3",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 5 часов",
+      "price": {
+        "amount": 8000,
+        "currency": "RUB"
+      },
+      "duration_minutes": 300,
+      "duration_hours": 5,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:house:300:4-5-6:4",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 5 часов",
+      "price": {
+        "amount": 8000,
+        "currency": "RUB"
+      },
+      "duration_minutes": 300,
+      "duration_hours": 5,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:house:360:0-1-2-3:5",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 6 часов",
+      "price": {
+        "amount": 9600,
+        "currency": "RUB"
+      },
+      "duration_minutes": 360,
+      "duration_hours": 6,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:house:360:4-5-6:6",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 6 часов",
+      "price": {
+        "amount": 9600,
+        "currency": "RUB"
+      },
+      "duration_minutes": 360,
+      "duration_hours": 6,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:house:420:0-1-2-3:7",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 7 часов",
+      "price": {
+        "amount": 11200,
+        "currency": "RUB"
+      },
+      "duration_minutes": 420,
+      "duration_hours": 7,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:house:420:4-5-6:8",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, 7 часов",
+      "price": {
+        "amount": 11200,
+        "currency": "RUB"
+      },
+      "duration_minutes": 420,
+      "duration_hours": 7,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "tariff:house:1440:0-1-2-3:9",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, сутки",
+      "price": {
+        "amount": 10500,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "tariff:house:1440:4-5-6:10",
+      "service_id": "house",
+      "facility_id": "house",
+      "title": "Гостевой дом, сутки",
+      "price": {
+        "amount": 12600,
+        "currency": "RUB"
+      },
+      "duration_minutes": 1440,
+      "duration_hours": 24,
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "media": [
+    {
+      "key": "bathhouse",
+      "title": "Баня с бассейном",
+      "aliases": [
+        "баня",
+        "баня с бассейном",
+        "bathhouse"
+      ],
+      "publicUrl": "/api/public/media/bathhouse",
+      "path": "app/images/banya.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "house",
+      "title": "Гостевой дом",
+      "aliases": [
+        "дом",
+        "гостевой дом",
+        "house"
+      ],
+      "publicUrl": "/api/public/media/house",
+      "path": "app/images/dom_gostevoy.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "warm_gazebo",
+      "title": "Тёплая беседка",
+      "aliases": [
+        "тёплая беседка",
+        "теплая беседка",
+        "warm_gazebo"
+      ],
+      "publicUrl": "/api/public/media/warm_gazebo",
+      "path": "app/images/besedka_teplaya.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Крытая беседка",
+      "title": "Крытая беседка",
+      "aliases": [
+        "крытая беседка",
+        "крытая"
+      ],
+      "publicUrl": "/api/public/media/%D0%9A%D1%80%D1%8B%D1%82%D0%B0%D1%8F%20%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0",
+      "path": "app/images/besedka_krytaya.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №1",
+      "title": "Беседка №1",
+      "aliases": [
+        "беседка 1",
+        "беседка №1"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%961",
+      "path": "app/images/besedka1.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №2",
+      "title": "Беседка №2",
+      "aliases": [
+        "беседка 2",
+        "беседка №2"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%962",
+      "path": "app/images/besedka2.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №3",
+      "title": "Беседка №3",
+      "aliases": [
+        "беседка 3",
+        "беседка №3"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%963",
+      "path": "app/images/besedka3.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №4",
+      "title": "Беседка №4",
+      "aliases": [
+        "беседка 4",
+        "беседка №4"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%964",
+      "path": "app/images/besedka4.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №5",
+      "title": "Беседка №5",
+      "aliases": [
+        "беседка 5",
+        "беседка №5"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%965",
+      "path": "app/images/besedka5.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №6",
+      "title": "Беседка №6",
+      "aliases": [
+        "беседка 6",
+        "беседка №6"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%966",
+      "path": "app/images/besedka6.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    },
+    {
+      "key": "Беседка №8",
+      "title": "Беседка №8",
+      "aliases": [
+        "беседка 8",
+        "беседка №8"
+      ],
+      "publicUrl": "/api/public/media/%D0%91%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0%20%E2%84%968",
+      "path": "app/images/besedka8.jpg",
+      "storage": "local-file",
+      "exists": true,
+      "contentType": "image/jpeg"
+    }
+  ],
+  "availability_state": {
+    "cacheState": "no-data",
+    "source": "mvp_availability_cache",
+    "liveAvailabilityChecked": false,
+    "rowCount": 0
+  },
+  "publicBookingPolicy": {
+    "mode": "catalog-only",
+    "readOnly": true,
+    "bookingWritesEnabled": false,
+    "liveAvailabilityChecked": false,
+    "availabilityCacheState": "no-data"
+  },
+  "warnings": [
+    {
+      "code": "availability_no-data",
+      "message": "Availability cache is not included in this catalog build."
+    },
+    {
+      "entityType": "service",
+      "entityId": "summer_gazebo",
+      "code": "not_exposed_as_facility",
+      "message": "Service has no concrete public facility, media, or public tariff in the current profile."
+    },
+    {
+      "entityType": "service",
+      "entityId": "summer_gazebo",
+      "code": "incomplete_public_catalog_item",
+      "message": "Service is present in the MaxBot profile but lacks enough data for a bookable public catalog item."
+    },
+    {
+      "entityType": "service",
+      "entityId": "gazebo_bathhouse",
+      "code": "not_exposed_as_facility",
+      "message": "Service has no concrete public facility, media, or public tariff in the current profile."
+    },
+    {
+      "entityType": "service",
+      "entityId": "gazebo_bathhouse",
+      "code": "incomplete_public_catalog_item",
+      "message": "Service is present in the MaxBot profile but lacks enough data for a bookable public catalog item."
+    }
+  ]
+}

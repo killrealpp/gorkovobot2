@@ -43,6 +43,7 @@ This block must not change runtime behavior, production data, payment flow, YCLI
   Evidence: explicit legacy smoke validation fails with `ImportError: cannot import name '_merge_fields' from 'app.dialog.engine'`.
 - Observation: Graphify and Headroom are installed locally.
   Evidence: `.\scripts\tooling-status.ps1` reports Graphify graph `1110 nodes / 2919 edges` and `headroom, version 0.31.0`.
+  2026-07-29 note: current tracked wrappers are `scripts/graphify-build.ps1` and `scripts/tooling-status.ps1`; Headroom control wrappers are not tracked in this repo and are documented as direct CLI/TODO in `wiki/tooling-memory-stack.md`.
 
 ## Decision Log
 
@@ -130,6 +131,7 @@ Validation evidence:
 - `.\scripts\validate.ps1 -IncludeSmoke` passes; it uses a temporary `APP_ENV_FILE` and SQLite database.
 - `.\scripts\wiki-check.ps1` passes with `Issues: 0`.
 - `.\scripts\tooling-status.ps1` passes and reports Graphify graph `1110 nodes / 2919 edges`, Headroom `0.31.0`, and Python validation ok.
+  2026-07-29 note: the graph exists but is stale for `app/api/` and `app/catalog/`; see `wiki/tooling-memory-stack.md`.
 - `.\scripts\validate.ps1 -IncludeSmoke -IncludeLegacySmoke` intentionally remains a known legacy failure on `tests/validation_smoke.py` importing removed `_merge_fields`.
 
 ## Interfaces and Dependencies
@@ -146,8 +148,8 @@ New project-facing files:
 - `.graphifyignore`
 - `.graphify/providers.json`
 - `scripts/graphify-build.ps1`
-- `scripts/headroom-*.ps1`
-- `scripts/codex-headroom.ps1`
 - `scripts/tooling-status.ps1`
+
+2026-07-29 note: Headroom wrapper scripts are no longer documented as tracked project files; use direct Headroom CLI checks unless a dedicated tooling cleanup restores wrappers.
 
 No new Python runtime dependency is introduced. A local `.venv/` was created from existing `requirements.txt`; it is ignored by git.

@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from app.data.admin_profile import media_path_for_key, resolve_media_key
+from app.catalog.reader import media_path_for_key, resolve_media_key
 
 
 # Сколько фото максимум отправлять одним ответом. Telegram media group ограничен 10 файлами.

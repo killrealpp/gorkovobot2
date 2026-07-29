@@ -50,7 +50,7 @@ Root-level dated fix notes are historical implementation notes. Use them for con
 - `tests/` contains script-style smoke checks.
 - `wiki/` contains durable project knowledge maintained by Codex.
 - `project_playbook/` contains portable stage guidance for the three planned improvements.
-- Optional dev tooling scripts include Graphify and Headroom helpers under `scripts/`. They are not runtime dependencies.
+- Optional dev tooling includes Graphify wrapper/status scripts under `scripts/` and direct Headroom CLI checks. These are not runtime dependencies.
 
 ## Commands
 
@@ -136,6 +136,6 @@ These are documented baseline risks before Stage 1:
 
 Graphify is for code relationship analysis. Use `scripts/graphify-build.ps1 -Status` to inspect the current graph, `-AstOnly` for a local graph update, and semantic mode only when API keys are intentionally available.
 
-Headroom is for compressing large logs, diffs, graph reports, and noisy context. Use `scripts/headroom-status.ps1` to check it. A running proxy is not the same as a routed Codex session; `scripts/codex-headroom.ps1` starts a new routed session.
+Headroom is for compressing large logs, diffs, graph reports, and noisy context. The repo currently documents direct CLI checks (`headroom --version`, `headroom doctor`) rather than tracked Headroom control wrappers. A running proxy is not the same as a routed Codex session; restore a dedicated wrapper in a tooling cleanup before documenting a routed Codex launch script again.
 
 Do not add Graphify or Headroom as runtime dependencies of the bot.

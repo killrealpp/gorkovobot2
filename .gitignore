@@ -23,6 +23,7 @@ htmlcov/
 
 # Local runtime data
 /data/
+data/catalog_overrides.local.json
 /logs/
 *.log
 *.pid
@@ -54,9 +55,7 @@ desktop.ini
 /graphify-out/
 /.headroom/
 /scripts/codex-headroom.ps1
-/scripts/graphify-build.ps1
 /scripts/headroom-*.ps1
-/scripts/tooling-status.ps1
 
 # Local historical patch notes kept outside deploy commits
 DEPLOY_MAX.md

@@ -8,6 +8,27 @@ tags:
 
 # MaxBot 4 Wiki Log
 
+## 2026-07-29
+
+- Audited public catalog API/local admin boundary for catalog-only readiness.
+- Restored tracked `scripts/graphify-build.ps1` and `scripts/tooling-status.ps1` wrappers without installing tools; both report local Graphify/Headroom status.
+- Recorded that the existing `graphify-out/` graph is stale for public catalog work because it predates `app/api/`, `app/catalog/`, the fixture generator, and `tests/public_catalog_smoke.py`.
+- Updated tooling wiki notes so Headroom control scripts are not documented as repo-present wrappers; direct CLI usage and a follow-up TODO are documented instead.
+
+## 2026-07-28
+
+- Added a public catalog API ExecPlan for preparing MaxBot as a backend/data-layer for Viksa Online and other clients.
+- Added `GET /api/public/catalog` in MAX webhook mode. The endpoint is read-only, unauthenticated, and built from `business_profile/admin_profile.yaml`, `app/data/services.py`, media config, and `mvp_availability_cache`.
+- Normalized the public catalog into business, categories, services, facilities, variants, tariffs, media, payment/post-payment public text, integration refs, rules, warnings, and availability state.
+- Kept incomplete profile placeholders such as `summer_gazebo` and `gazebo_bathhouse` in `services` with warnings instead of exposing them as concrete facilities.
+- Added smoke coverage for `Причал`, all real public facilities, media refs, secret-key exclusion, and honest `no-data`/`stale` availability states.
+- Ran `.\scripts\validate.ps1 -IncludeSmoke` successfully with temporary `APP_ENV_FILE` and SQLite.
+- Added independent public API entrypoint `app.api.server` so Viksa Online can use `http://127.0.0.1:8090` while MaxBot stays in polling mode.
+- Added explicit local CORS origins for the public API: `http://127.0.0.1:5173` and `http://localhost:5173`.
+- Added browser-ready media URLs through `media[].publicUrl` and `GET /api/public/media/{media_key}`.
+- Added deterministic frontend fixture `tests/fixtures/public_catalog.v1.json` and `scripts/generate_public_catalog_fixture.py`.
+- Expanded public catalog smoke to cover `/health`, CORS preflight, media responses, fixture validity, secret exclusion, and stale/no-data availability state behavior.
+
 ## 2026-07-27
 
 - Added the initial wiki layer for MaxBot 4 preparation work.

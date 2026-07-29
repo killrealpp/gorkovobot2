@@ -13,11 +13,11 @@ from app.core.config import get_settings
 from app.data.admin_profile import (
     booking_required_order,
     build_profile_knowledge,
-    compact_media_catalog,
     profile_service_keys,
     render_template_file,
 )
-from app.data.services import load_services, service_title
+from app.catalog.reader import bot_media_catalog, bot_services_catalog
+from app.data.services import service_title
 from app.dialog.pricing import calculate_booking_price, extra_hour_price_breakdown
 from app.dialog.availability_cache import availability_context_for_llm, availability_object_dates_for_llm
 from app.dialog.state import AdminAction, AdminDecision, BookingDraft
@@ -1035,41 +1035,11 @@ def _booking_flow_state(draft: BookingDraft) -> dict[str, Any]:
 
 
 def _compact_services_catalog() -> dict[str, Any]:
-    catalog: dict[str, Any] = {}
-    for service_type, service in load_services().items():
-        variants = []
-        for variant in service.get("variants") or []:
-            variants.append(
-                {
-                    "title": variant.get("title"),
-                    "capacity_max": variant.get("capacity_max"),
-                    "price": variant.get("price"),
-                    "duration_minutes": variant.get("duration_minutes"),
-                    "weekdays": variant.get("weekdays"),
-                }
-            )
-        item = {
-            "title": service.get("title"),
-            "capacity_max": service.get("capacity_max"),
-            "price": service.get("price"),
-            "default_duration_minutes": service.get("default_duration_minutes"),
-            "variants": variants[:30],
-        }
-        rules = service.get("price_rules") or {}
-        if rules.get("extra_hour_after_minutes") and rules.get("extra_hour_price") is not None:
-            base_duration_hours = int(rules.get("extra_hour_after_minutes") or 0) // 60
-            item["duration_rule"] = {
-                "can_book_more_than_base_duration": True,
-                "base_duration_hours": base_duration_hours,
-                "extra_hour_price_rub": rules.get("extra_hour_price"),
-                "instruction": rules.get("extra_hour_instruction") or "",
-            }
-        catalog[service_type] = item
-    return catalog
+    return bot_services_catalog()
 
 
 def _compact_media_catalog() -> dict[str, Any]:
-    return compact_media_catalog()
+    return bot_media_catalog()
 
 def is_llm_rate_limited() -> bool:
     """

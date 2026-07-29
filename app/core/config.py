@@ -174,6 +174,14 @@ class Settings(BaseSettings):
     sqlite_path: str = Field(default="bot.sqlite3")
     admin_profile_path: str = "business_profile/admin_profile.yaml"
 
+    # Separate read-only public API for frontend integrations. This does not
+    # switch MAX between polling and webhook modes.
+    public_api_host: str = "127.0.0.1"
+    public_api_port: int = 8090
+    public_api_cors_origins: str = "http://127.0.0.1:5173,http://localhost:5173"
+    catalog_admin_local_enabled: bool = False
+    catalog_overrides_path: str = "data/catalog_overrides.local.json"
+
 
 @lru_cache
 def get_settings() -> Settings:

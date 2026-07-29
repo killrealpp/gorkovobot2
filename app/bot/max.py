@@ -135,10 +135,13 @@ async def _run_webhook(client: MaxClient) -> None:
         raise RuntimeError("Webhook mode requires fastapi and uvicorn. Install requirements.txt") from exc
 
     app = FastAPI(title="MAX booking bot")
+    from app.api.public_catalog import register_public_catalog_routes
 
     @app.get("/health")
     async def health() -> dict[str, bool]:
         return {"ok": True}
+
+    register_public_catalog_routes(app)
 
     @app.post(settings.max_webhook_path)
     async def webhook(
