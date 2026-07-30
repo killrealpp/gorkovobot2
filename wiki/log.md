@@ -11,6 +11,7 @@ tags:
 ## 2026-07-29
 
 - Audited public catalog API/local admin boundary for catalog-only readiness.
+- Stabilized `tests/booking_flow_smoke.py` so it checks current booking-flow contracts instead of removed private dialog-engine helpers, and added it to normal `.\scripts\validate.ps1 -IncludeSmoke`.
 - Restored tracked `scripts/graphify-build.ps1` and `scripts/tooling-status.ps1` wrappers without installing tools; both report local Graphify/Headroom status.
 - Recorded that the existing `graphify-out/` graph is stale for public catalog work because it predates `app/api/`, `app/catalog/`, the fixture generator, and `tests/public_catalog_smoke.py`.
 - Updated tooling wiki notes so Headroom control scripts are not documented as repo-present wrappers; direct CLI usage and a follow-up TODO are documented instead.

@@ -39,7 +39,7 @@ This wrapper creates a temporary `APP_ENV_FILE` and temporary SQLite database be
 
 Current status: `.\scripts\validate.ps1 -IncludeSmoke` passes with isolated settings.
 
-The current smoke set includes `tests/smoke.py`, `tests/admin_profile_smoke.py`, `tests/stage2_behavior_parity_smoke.py`, the read-only retention report smoke, the retention cleanup smoke, and the retention scheduler smoke.
+The current smoke set includes `tests/smoke.py`, `tests/booking_flow_smoke.py`, `tests/admin_profile_smoke.py`, `tests/stage2_behavior_parity_smoke.py`, `tests/public_catalog_smoke.py`, the read-only retention report smoke, the retention cleanup smoke, and the retention scheduler smoke.
 
 Legacy internal smoke scripts are available behind an explicit flag:
 
@@ -47,7 +47,7 @@ Legacy internal smoke scripts are available behind an explicit flag:
 .\scripts\validate.ps1 -IncludeSmoke -IncludeLegacySmoke
 ```
 
-Current legacy status: `tests/validation_smoke.py` and `tests/booking_flow_smoke.py` are stale relative to the current dialog engine internals. The first failure is `ImportError: cannot import name '_merge_fields' from 'app.dialog.engine'`.
+Current legacy status: `tests/validation_smoke.py` is stale relative to the current dialog engine internals. `tests/booking_flow_smoke.py` was stabilized on 2026-07-29 to check stable booking-flow contracts instead of removed private helpers.
 
 ## External Side Effects
 

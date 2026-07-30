@@ -56,6 +56,7 @@ WATCHLIST_LOOP_ENABLED=false
         $env:APP_ENV_FILE = $envFile
         $env:SQLITE_PATH = $dbPath
         Invoke-Checked $python @("tests\smoke.py")
+        Invoke-Checked $python @("tests\booking_flow_smoke.py")
         Invoke-Checked $python @("tests\admin_profile_smoke.py")
         Invoke-Checked $python @("tests\stage2_behavior_parity_smoke.py")
         Invoke-Checked $python @("tests\public_catalog_smoke.py")
@@ -64,9 +65,8 @@ WATCHLIST_LOOP_ENABLED=false
         Invoke-Checked $python @("tests\retention_scheduler_smoke.py")
         if ($IncludeLegacySmoke) {
             Invoke-Checked $python @("tests\validation_smoke.py")
-            Invoke-Checked $python @("tests\booking_flow_smoke.py")
         } else {
-            Write-Output "Legacy internal smoke scripts skipped. Run with -IncludeLegacySmoke after updating them to current dialog engine internals."
+            Write-Output "Legacy internal validation smoke skipped. Run with -IncludeLegacySmoke after updating it to current dialog engine internals."
         }
     }
     finally {

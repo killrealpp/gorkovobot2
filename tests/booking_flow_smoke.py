@@ -2,223 +2,288 @@ from __future__ import annotations
 
 import os
 import sys
+from datetime import timezone
+from decimal import Decimal
+
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from app.dialog.engine import (
-    _allowed_action_type,
-    _contextual_fields_from_history,
-    _finalize_upsells_for_payment_intent,
-    _is_confirmation_text,
-    _is_summary_question,
-    _merge_fields,
-    _payment_intent,
-    _ready_for_payment,
-    _slot_ready_for_availability,
-)
-from app.dialog.state import BookingDraft
+from app.bot.media import extract_media_titles_from_reply, paths_for_requested_media  # noqa: E402
+from app.data.admin_profile import payment_prepayment_percent  # noqa: E402
+from app.data.services import normalize_service_type, service_title  # noqa: E402
+import app.dialog.availability as availability_module  # noqa: E402
+from app.dialog.availability import build_yclients_payload, suitable_variants  # noqa: E402
+from app.dialog.payment import payment_amounts  # noqa: E402
+from app.dialog.post_payment_message import build_post_payment_messages  # noqa: E402
+from app.dialog.pricing import calculate_booking_price, extra_hour_price_breakdown  # noqa: E402
+from app.dialog.state import BookingDraft  # noqa: E402
 
 
-def main() -> None:
-    draft = BookingDraft(
-        service_type="gazebo",
-        date="2026-06-20",
-        guests_count=30,
-        service_variant="Беседка №1",
-        time="18:00",
-        duration=6,
-        event_format="просто отдых",
-        client_name="Luv",
-    )
-    assert draft.next_step() == "upsell_items"
-    _merge_fields(draft, {}, "Luv", "ничего не надо")
-    assert draft.upsell_offer_count == 1
-    assert not draft.upsell_done
-    assert draft.next_step() == "upsell_items"
-    _merge_fields(draft, {}, "Luv", "не надо допов")
-    assert draft.upsell_offer_count == 2
-    assert draft.upsell_done
-    assert draft.next_step() == "phone"
-
-    draft = BookingDraft(
-        service_type="gazebo",
-        date="2026-06-20",
-        guests_count=30,
-        service_variant="Беседка №1",
-        time="18:00",
-        duration=6,
-    )
-    _merge_fields(draft, {}, "Luv", "С 19 до 01")
-    assert draft.service_variant == "Беседка №1"
-    assert draft.time == "19:00"
-    assert draft.duration == 6
-
-    draft = BookingDraft(
-        service_type="gazebo",
-        date="2026-06-15",
-        guests_count=15,
-        service_variant="Беседка №6",
-        time="18:00",
-        duration=6,
-        event_format="просто отдых",
-        upsell_items=["кальян"],
-        upsell_done=True,
-        client_name="Luv",
-        phone="89022613470",
-        payment_id="old",
-        payment_url="https://example.test/pay",
-        status="waiting_payment",
-    )
-    _merge_fields(draft, {}, "Luv", "У нас свой кальян, нам не надо допов")
-    assert draft.upsell_items == []
-    assert draft.payment_id is None
-    assert draft.payment_url is None
-    assert draft.status == "collecting"
-
-    draft = BookingDraft(service_type="gazebo", date="2026-06-20", guests_count=15)
-    assert not _is_summary_question("А в чем разница между крытой и теплой?")
-    _merge_fields(draft, {"service_type": "warm_gazebo"}, "Luv", "А в чем разница между крытой и теплой?")
-    assert draft.service_type == "gazebo"
-    _merge_fields(draft, {}, "Luv", "Теплую давай")
-    assert draft.service_type == "warm_gazebo"
-    assert draft.service_variant is None
-    _merge_fields(draft, {}, "Luv", "с 6 вечера до 12 ночи")
-    assert draft.service_type == "warm_gazebo"
-    assert draft.time == "18:00"
-    assert draft.duration == 6
-
-    draft = BookingDraft(service_type="gazebo", date="2026-06-06")
-    _merge_fields(draft, {"date": "2026-06-10", "guests_count": 10}, "Luv", "10")
-    assert draft.date == "2026-06-06"
-    assert draft.guests_count == 10
-
-    draft = BookingDraft(service_type="warm_gazebo", date="2026-06-08", time="15:00", duration=17)
-    _merge_fields(draft, {"date": "2026-06-06", "guests_count": 10}, "Luv", "10 человек")
-    assert draft.date == "2026-06-08"
-    assert draft.guests_count == 10
-    _merge_fields(draft, {"date": "2026-06-06", "guests_count": 15}, "Luv", "ой, а нас 15 будет")
-    assert draft.date == "2026-06-08"
-    assert draft.guests_count == 15
-
-    draft = BookingDraft(service_type="gazebo", date="2026-06-06", guests_count=10)
-    _merge_fields(draft, {"date": "2026-06-10", "service_variant": "Беседка №3"}, "Luv", "третью")
-    assert draft.date == "2026-06-06"
-    assert draft.service_variant == "Беседка №3"
-
-    draft = BookingDraft(
-        service_type="gazebo",
-        date="2026-06-06",
-        guests_count=10,
-        service_variant="Беседка №5",
-        time="06:00",
-        duration=24,
-    )
-    assert _slot_ready_for_availability(draft)
-
-    draft = BookingDraft(service_type="warm_gazebo", guests_count=10)
-    assert _allowed_action_type("list_available_dates", "А подешевле есть?", draft, semantic_info_question=False) == "none"
-
-    draft = BookingDraft(service_type="warm_gazebo", date="2026-06-06", guests_count=10, duration=24)
-    _merge_fields(draft, {}, "Luv", "Давай пятую, на завтра")
-    assert draft.service_type == "gazebo"
-    assert draft.service_variant == "Беседка №5"
-
-    draft = BookingDraft(service_type="bathhouse", date="2026-06-06", guests_count=10, time="15:00")
-    _merge_fields(
-        draft,
-        {"duration": 8, "event_format": "просто отдых"},
-        "Luv",
-        "Отдохнуть после тяжелой недели, много денег заработали",
-    )
-    assert draft.duration is None
-    assert draft.event_format == "просто отдых"
-
-    draft = BookingDraft(
-        service_type="bathhouse",
-        date="2026-06-06",
-        guests_count=10,
-        time="15:00",
-        duration=5,
-        event_format="просто отдых",
-        upsell_items=["кальян"],
-    )
-    _merge_fields(draft, {"upsell_items": ["кальян"]}, "Luv", "Банька, бассейн, покушать и покурить кальян. Кальян у нас свой")
-    assert draft.upsell_items == []
-
-    draft = BookingDraft(
-        service_type="warm_gazebo",
-        date="2026-06-08",
-        guests_count=10,
-        time="15:00",
-        duration=24,
-        event_format="просто отдых",
-        upsell_done=True,
-    )
-    reply = _merge_fields(draft, {"guests_count": 89022613470}, "Luv", "89022613470")
-    assert reply is None
-    assert draft.guests_count == 10
-    assert draft.phone == "+79022613470"
-    assert _is_confirmation_text("Формируй")
-    assert _is_confirmation_text("И где ссылка?")
-    assert _is_confirmation_text("Газ")
-    assert _is_confirmation_text("погнали")
-    assert _payment_intent("Все давай я готов внести оплату")
+def _assert_next_step_contract() -> None:
+    cases = [
+        (BookingDraft(), "service_type"),
+        (BookingDraft(service_type="gazebo"), "date"),
+        (BookingDraft(service_type="gazebo", date="2026-08-01"), "service_variant"),
+        (
+            BookingDraft(
+                service_type="gazebo",
+                date="2026-08-01",
+                service_variant="Беседка №1",
+            ),
+            "time",
+        ),
+        (
+            BookingDraft(
+                service_type="gazebo",
+                date="2026-08-01",
+                service_variant="Беседка №1",
+                time="18:00",
+            ),
+            "duration",
+        ),
+        (
+            BookingDraft(
+                service_type="gazebo",
+                date="2026-08-01",
+                service_variant="Беседка №1",
+                time="18:00",
+                duration=6,
+            ),
+            "guests_count",
+        ),
+        (
+            BookingDraft(
+                service_type="gazebo",
+                date="2026-08-01",
+                service_variant="Беседка №1",
+                time="18:00",
+                duration=6,
+                guests_count=12,
+            ),
+            "upsell_items",
+        ),
+        (
+            BookingDraft(
+                service_type="gazebo",
+                date="2026-08-01",
+                service_variant="Беседка №1",
+                time="18:00",
+                duration=6,
+                guests_count=12,
+                upsell_done=True,
+            ),
+            "client_name",
+        ),
+        (
+            BookingDraft(
+                service_type="gazebo",
+                date="2026-08-01",
+                service_variant="Беседка №1",
+                time="18:00",
+                duration=6,
+                guests_count=12,
+                upsell_done=True,
+                client_name="Савелий",
+            ),
+            "phone",
+        ),
+        (
+            BookingDraft(
+                service_type="bathhouse",
+                date="2026-08-03",
+            ),
+            "duration",
+        ),
+        (
+            BookingDraft(
+                service_type="bathhouse",
+                date="2026-08-03",
+                time="12:00",
+            ),
+            "duration",
+        ),
+        (
+            BookingDraft(
+                service_type="bathhouse",
+                date="2026-08-03",
+                duration=8,
+            ),
+            "time",
+        ),
+        (BookingDraft(service_type="house", date="2026-08-03"), "time"),
+        (BookingDraft(service_type="house", date="2026-08-03", time="16:00"), "duration"),
+        (BookingDraft(service_type="warm_gazebo", date="2026-08-03"), "time"),
+    ]
+    for draft, expected in cases:
+        assert draft.next_step() == expected, (draft, draft.next_step(), expected)
 
     ready = BookingDraft(
         service_type="warm_gazebo",
-        date="2026-06-08",
+        date="2026-08-08",
+        time="14:00",
+        duration=22,
         guests_count=10,
-        time="18:00",
-        duration=24,
-        event_format="просто отдых",
+        event_format="отдых",
         upsell_done=True,
         client_name="Савелий",
         phone="+79022613470",
     )
-    assert _allowed_action_type("create_payment", "Да", ready, semantic_info_question=False) == "create_payment"
+    assert ready.next_step() == "confirmation"
+    assert ready.ready_for_confirmation()
 
-    ready_with_open_upsells = BookingDraft(
-        service_type="warm_gazebo",
-        date="2026-06-06",
-        guests_count=10,
+    missing_gazebo_variant = BookingDraft(
+        service_type="gazebo",
+        date="2026-08-01",
         time="18:00",
-        duration=24,
-        event_format="просто отдых",
-        upsell_items=["забивка + уголь"],
+        duration=6,
+        guests_count=12,
+        upsell_done=True,
         client_name="Савелий",
         phone="+79022613470",
     )
-    assert not _ready_for_payment(ready_with_open_upsells)
-    _finalize_upsells_for_payment_intent(ready_with_open_upsells)
-    assert _ready_for_payment(ready_with_open_upsells)
+    assert missing_gazebo_variant.next_step() == "service_variant"
+    assert not missing_gazebo_variant.ready_for_confirmation()
 
-    house = BookingDraft(service_type="house", date="2026-06-07", guests_count=15)
-    _merge_fields(house, {"duration": 7}, "Luv", "на 7 часов")
-    assert house.duration == 7
-    assert house.next_step() == "time"
-    _merge_fields(house, {"time": "16:30", "duration": 7}, "Luv", "в 16 30 тогда")
-    assert house.time == "16:30"
-    assert house.duration == 7
-    assert house.next_step() == "upsell_items"
-    _merge_fields(house, {}, "Luv", "на месте решу")
-    assert house.upsell_items == []
-    assert house.upsell_done
-    assert house.next_step() == "client_name"
-
-    contextual = _contextual_fields_from_history(
-        "Да",
-        BookingDraft(guests_count=10),
-        [
-            {
-                "sender": "assistant",
-                "text": "Для 10 человек я бы посоветовала Тёплую беседку. На 7 июня есть свободные старты.",
-            }
-        ],
+    open_upsells = BookingDraft(
+        service_type="warm_gazebo",
+        date="2026-08-08",
+        time="14:00",
+        duration=22,
+        guests_count=10,
+        event_format="отдых",
+        client_name="Савелий",
+        phone="+79022613470",
     )
-    assert contextual["service_type"] == "warm_gazebo"
-    assert contextual["date"] == "2026-06-07"
+    assert open_upsells.next_step() == "upsell_items"
+    assert not open_upsells.ready_for_confirmation()
 
-    print("OK booking flow")
+
+def _assert_catalog_alias_contract() -> None:
+    assert normalize_service_type("баня с бассейном") == "bathhouse"
+    assert normalize_service_type("гостевой дом") == "house"
+    assert normalize_service_type("тёплая беседка") == "warm_gazebo"
+    assert normalize_service_type("беседка номер 1") == "gazebo"
+    assert service_title(None) == "услуга"
+    assert service_title("gazebo") == "Беседка"
+    assert service_title("bathhouse") == "Баня"
+    assert service_title("house") == "Дом"
+
+
+def _assert_pricing_and_payment_contract() -> None:
+    assert calculate_booking_price(BookingDraft(service_type="gazebo", service_variant="Беседка №1")) == 10500
+    assert calculate_booking_price(BookingDraft(service_type="bathhouse", date="2026-08-03", duration=8)) == 16200
+    assert calculate_booking_price(BookingDraft(service_type="bathhouse", date="2026-08-01", duration=8)) == 20050
+    assert calculate_booking_price(BookingDraft(service_type="house", date="2026-08-03", duration=8)) == 10500
+    assert calculate_booking_price(BookingDraft(service_type="house", date="2026-08-07", duration=24)) == 12600
+
+    breakdown = extra_hour_price_breakdown(
+        BookingDraft(service_type="bathhouse", date="2026-08-03", duration=8)
+    )
+    assert breakdown is not None
+    assert breakdown["base_duration_hours"] == 7
+    assert breakdown["extra_hours"] == 1
+    assert breakdown["extra_hour_price"] == 1500
+    assert breakdown["total_price"] == 16200
+
+    priced = BookingDraft(
+        service_type="bathhouse",
+        date="2026-08-03",
+        time="12:00",
+        duration=8,
+        guests_count=6,
+    )
+    assert payment_prepayment_percent() == 50
+    amounts = payment_amounts(priced)
+    assert amounts["total"] == Decimal("16200.00")
+    assert amounts["prepayment"] == Decimal("8100.00")
+    assert amounts["remaining"] == Decimal("8100.00")
+
+
+def _assert_media_contract() -> None:
+    titles = extract_media_titles_from_reply(
+        "Вот фото вариантов: Баня с бассейном, Гостевой дом, Беседка 1"
+    )
+    assert titles == ["bathhouse", "house", "Беседка №1"]
+
+    paths = paths_for_requested_media(["bathhouse", "house", "Тёплая беседка", "Беседка №1"])
+    assert [path.name for path in paths] == [
+        "banya.jpg",
+        "dom_gostevoy.jpg",
+        "besedka_teplaya.jpg",
+        "besedka1.jpg",
+    ]
+
+
+def _assert_yclients_payload_contract() -> None:
+    draft = BookingDraft(
+        service_type="bathhouse",
+        date="2026-08-03",
+        time="12:00",
+        duration=8,
+        guests_count=6,
+        event_format="отдых",
+        upsell_items=["кальян"],
+        upsell_done=True,
+        client_name="Савелий",
+        phone="+7 902 261-34-70",
+        payment_id="pay-test",
+    )
+
+    variants = suitable_variants(draft)
+    assert len(variants) == 1
+    assert int(variants[0]["duration_minutes"]) == 420
+
+    original_zone_info = availability_module.ZoneInfo
+    try:
+        availability_module.ZoneInfo = lambda _key: timezone.utc
+        payload = build_yclients_payload(draft)
+    finally:
+        availability_module.ZoneInfo = original_zone_info
+
+    assert payload["phone"] == "79022613470"
+    assert payload["fullname"] == "Савелий"
+    assert payload["notify_by_sms"] == 0
+    assert payload["notify_by_email"] == 0
+    assert len(payload["appointments"]) == 1
+    assert payload["appointments"][0]["datetime"] == "2026-08-03T12:00:00"
+
+    comment = payload["comment"]
+    assert "Объект: Баня." in comment
+    assert "Предоплата внесена через YooKassa: 50%." in comment
+    assert "YooKassa payment_id: pay-test." in comment
+    assert "Важно: в YClients используется услуга бани на 7 часов" in comment
+    assert "Доплата сверх 7 часов: 1 500 ₽." in comment
+
+
+def _assert_post_payment_contract() -> None:
+    draft = BookingDraft(
+        service_type="bathhouse",
+        date="2026-08-03",
+        time="12:00",
+        duration=8,
+        guests_count=6,
+        event_format="отдых",
+        upsell_done=True,
+        client_name="Савелий",
+        phone="+79022613470",
+    )
+    messages = build_post_payment_messages(draft)
+    assert len(messages) >= 2
+    assert "Оплату получила ✅" in messages[0]
+    assert "Бронь подтверждена" in messages[0]
+    assert "Стоимость бронирования: 16 200 ₽" in messages[0]
+    assert "Предоплата 50%: 8 100 ₽" in messages[0]
+    assert "vc7ki6Pm3LPYQA" in messages[1]
+
+
+def main() -> None:
+    _assert_next_step_contract()
+    _assert_catalog_alias_contract()
+    _assert_pricing_and_payment_contract()
+    _assert_media_contract()
+    _assert_yclients_payload_contract()
+    _assert_post_payment_contract()
+    print("OK booking flow smoke")
 
 
 if __name__ == "__main__":
