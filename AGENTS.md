@@ -2,6 +2,12 @@
 
 Read this file first in every new Codex session for this repository.
 
+When a task mentions Obsidian, LLM Wiki, markdown knowledge bases, source ingest,
+wiki linting, durable memory, or cross-linked notes, also read
+`llm_wiki/index.md` and follow the linked `llm_wiki/schema.md` workflow. That
+folder is a documentation/workflow layer only; it must not override MaxBot
+runtime rules, booking/payment/YCLIENTS ownership, or secret-handling rules.
+
 ## Project Summary
 
 MaxBot 4 is a compact Python booking bot for MAX with Telegram kept as a fallback channel. The backend owns the booking scenario, availability checks, temporary holds, payments, YCLIENTS records, admin notifications, voice transcription, and watchlist behavior. AI is used as a controlled parser and response helper; it must not become the source of truth for bookings, prices, availability, payments, holds, or records.
@@ -15,6 +21,8 @@ Use current code as the first source of truth. Durable project memory is being i
 - `AGENTS.md` defines how Codex should work in this repository.
 - `PLANS.md` defines the ExecPlan workflow for large or risky work.
 - `wiki/index.md` is the wiki entry point.
+- `llm_wiki/index.md` is the root-level LLM Wiki pattern entry point for
+  Obsidian/markdown knowledge-base work.
 - `project_playbook/three-stage-improvement-prompt.md` records the three-stage improvement direction for this repository.
 - `README.md` is the short operator-facing overview.
 - `app/data/services.yaml` is still the active service, price, capacity, staff, and YCLIENTS id catalog.
@@ -49,6 +57,8 @@ Root-level dated fix notes are historical implementation notes. Use them for con
 - `scripts/` contains operational helpers.
 - `tests/` contains script-style smoke checks.
 - `wiki/` contains durable project knowledge maintained by Codex.
+- `llm_wiki/` contains an interlinked Markdown guide for the LLM Wiki /
+  Obsidian-style knowledge-base workflow.
 - `project_playbook/` contains portable stage guidance for the three planned improvements.
 - Optional dev tooling includes Graphify wrapper/status scripts under `scripts/` and direct Headroom CLI checks. These are not runtime dependencies.
 
