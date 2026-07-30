@@ -59,6 +59,7 @@ WATCHLIST_LOOP_ENABLED=false
         Invoke-Checked $python @("tests\booking_flow_smoke.py")
         Invoke-Checked $python @("tests\admin_profile_smoke.py")
         Invoke-Checked $python @("tests\stage2_behavior_parity_smoke.py")
+        Invoke-Checked $python @("tests\catalog_core_smoke.py")
         Invoke-Checked $python @("tests\public_catalog_smoke.py")
         Invoke-Checked $python @("tests\retention_report_smoke.py")
         Invoke-Checked $python @("tests\retention_cleanup_smoke.py")
