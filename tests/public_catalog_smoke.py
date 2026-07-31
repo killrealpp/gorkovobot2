@@ -265,6 +265,7 @@ def _assert_bot_catalog_house_has_no_fake_capacity() -> None:
 def _assert_catalog_shape(payload: dict[str, Any], client: Any) -> None:
     assert payload["business"]["name"] == "Причал"
     assert payload["availability_state"]["cacheState"] == "no-data"
+    assert payload["availability_state"]["rowCount"] == 0
     assert payload["source"]["liveAvailabilityChecked"] is False
     assert payload["source"]["overridesApplied"] is False
     _assert_no_public_payment_copy(payload)
@@ -311,6 +312,36 @@ def _assert_catalog_shape(payload: dict[str, Any], client: Any) -> None:
         assert media_response.content, media
 
     _assert_no_secret_keys(payload)
+
+
+def _assert_public_catalog_endpoint_skips_availability_storage(client: Any) -> None:
+    import app.api.public_catalog as public_catalog
+
+    calls: list[str] = []
+    original_age = public_catalog.sqlite.availability_cache_age_seconds
+    original_rows = public_catalog.sqlite.list_availability_rows
+
+    def age_marker() -> None:
+        calls.append("availability_cache_age_seconds")
+        return None
+
+    def rows_marker(**_kwargs: Any) -> list[dict[str, Any]]:
+        calls.append("list_availability_rows")
+        return []
+
+    public_catalog.sqlite.availability_cache_age_seconds = age_marker
+    public_catalog.sqlite.list_availability_rows = rows_marker
+    try:
+        response = client.get("/api/public/catalog")
+        assert response.status_code == 200, response.text
+        payload = response.json()
+        assert payload["availability_state"]["cacheState"] == "no-data"
+        assert payload["availability_state"]["rowCount"] == 0
+        assert payload["publicBookingPolicy"]["bookingWritesEnabled"] is False
+        assert calls == [], calls
+    finally:
+        public_catalog.sqlite.availability_cache_age_seconds = original_age
+        public_catalog.sqlite.list_availability_rows = original_rows
 
 
 def main() -> None:
@@ -371,6 +402,7 @@ def main() -> None:
         assert response.headers.get("access-control-allow-origin") == "http://127.0.0.1:5173"
         payload = response.json()
         _assert_catalog_shape(payload, client)
+        _assert_public_catalog_endpoint_skips_availability_storage(client)
 
         os.environ["CATALOG_ADMIN_LOCAL_ENABLED"] = "true"
         get_settings.cache_clear()
@@ -485,7 +517,11 @@ def main() -> None:
             refreshed_at=refreshed_at,
         )
 
-        stale_payload = admin_client.get("/api/public/catalog").json()
+        route_payload_without_cache = admin_client.get("/api/public/catalog").json()
+        assert route_payload_without_cache["availability_state"]["cacheState"] == "no-data"
+        assert route_payload_without_cache["availability_state"]["rowCount"] == 0
+
+        stale_payload = build_public_catalog(read_availability_cache=True)
         assert stale_payload["availability_state"]["cacheState"] == "stale"
         stale_gazebo_1 = _facilities_by_id(stale_payload)["gazebo-1"]
         assert stale_gazebo_1["availability_state"]["cacheState"] == "stale"

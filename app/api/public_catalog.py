@@ -50,7 +50,10 @@ SECRET_KEY_MARKERS = (
 def register_public_catalog_routes(app: Any) -> None:
     @app.get(PUBLIC_CATALOG_PATH)
     async def public_catalog() -> dict[str, Any]:
-        return build_public_catalog()
+        # Keep the public catalog endpoint a fast catalog-only read model.
+        # Cached availability remains available to explicit builder callers only;
+        # live availability/booking is a separate backend stage.
+        return build_public_catalog(read_availability_cache=False)
 
     @app.get(f"{PUBLIC_MEDIA_PREFIX}/{{media_key:path}}")
     async def public_media(media_key: str) -> FileResponse:
