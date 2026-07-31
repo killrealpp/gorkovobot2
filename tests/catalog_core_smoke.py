@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
@@ -84,6 +85,61 @@ def _assert_capacity_max_must_be_int() -> None:
     assert "facilities.house.capacity.max must be an integer" in "\n".join(result.errors)
 
 
+def _assert_media_path_stays_under_public_images() -> None:
+    valid = validate_draft_like({"media": {"house": {"path": "app/images/dom_gostevoy.jpg"}}})
+    assert valid.ok is True, valid.to_dict()
+
+    escaped = validate_draft_like({"media": {"house": {"path": "../secret.jpg"}}})
+    assert escaped.ok is False
+    assert "media.house.path must stay under app/images" in "\n".join(escaped.errors)
+
+
+def _assert_runtime_validator_parity_on_dangerous_drafts() -> None:
+    from app.api.public_catalog import validate_catalog_overrides
+
+    outside_root = str(Path(PROJECT_ROOT).parent / "outside.jpg")
+    cases = [
+        ("non_object", []),
+        (
+            "secret_like_keys",
+            {
+                "facilities": {"house": {"yclients_service_id": "18201039"}},
+                "payment": {"provider": "yookassa"},
+                "supabase_url": "https://example.supabase.co",
+            },
+        ),
+        ("section_not_object", {"facilities": []}),
+        ("item_not_object", {"facilities": {"house": []}}),
+        ("unknown_top_level", {"unknown": {}}),
+        ("unknown_item_field", {"facilities": {"house": {"unknown": "ignored"}}}),
+        ("bad_sort", {"facilities": {"house": {"sort": "last"}}}),
+        ("bad_visible", {"facilities": {"house": {"visible": "yes"}}}),
+        ("bad_capacity_object", {"facilities": {"house": {"capacity": "many"}}}),
+        ("bad_capacity_max", {"facilities": {"house": {"capacity": {"max": "many"}}}}),
+        ("bad_media_refs", {"facilities": {"house": {"mediaRefs": "house"}}}),
+        ("bad_price_object", {"tariffs": {"tariff:house": {"price": 1000}}}),
+        ("bad_price_amount", {"tariffs": {"tariff:house": {"price": {"amount": "many"}}}}),
+        ("bad_duration", {"tariffs": {"tariff:house": {"duration_minutes": "long"}}}),
+        ("bad_aliases", {"media": {"house": {"aliases": "house"}}}),
+        ("bad_media_path_relative_escape", {"media": {"house": {"path": "../secret.jpg"}}}),
+        ("bad_media_path_absolute_escape", {"media": {"house": {"path": outside_root}}}),
+        ("valid_media_path", {"media": {"house": {"path": "app/images/dom_gostevoy.jpg"}}}),
+    ]
+
+    for name, draft in cases:
+        runtime = validate_catalog_overrides(draft)
+        core = validate_draft_like(draft).to_dict()
+        assert _normalized_validation(runtime) == _normalized_validation(core), (name, runtime, core)
+
+
+def _normalized_validation(value: dict[str, object]) -> dict[str, object]:
+    return {
+        "ok": bool(value.get("ok")),
+        "errors": sorted(str(item) for item in value.get("errors", [])),
+        "warnings": sorted(str(item) for item in value.get("warnings", [])),
+    }
+
+
 def _assert_validation_result_shape() -> None:
     result = ValidationResultDTO(ok=True)
     assert list(result.to_dict().keys()) == ["ok", "errors", "warnings"]
@@ -134,6 +190,8 @@ def main() -> None:
     _assert_capacity_unknown_stays_unknown()
     _assert_explicit_capacity_zero_is_not_synthesized()
     _assert_capacity_max_must_be_int()
+    _assert_media_path_stays_under_public_images()
+    _assert_runtime_validator_parity_on_dangerous_drafts()
     _assert_validation_result_shape()
     _assert_dto_shapes_importable()
     _assert_catalog_core_imports_do_not_pull_runtime_clients()

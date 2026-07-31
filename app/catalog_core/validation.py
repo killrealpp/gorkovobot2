@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from app.catalog_core.dto import ValidationResultDTO
 from app.catalog_core.privacy import collect_forbidden_public_paths
 
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PUBLIC_MEDIA_ROOT = PROJECT_ROOT / "app" / "images"
 OVERRIDE_SECTIONS: frozenset[str] = frozenset({"categories", "facilities", "tariffs", "media"})
 
 ALLOWED_SECTION_FIELDS: dict[str, frozenset[str]] = {
@@ -114,6 +117,24 @@ def _validate_tariff_item(item_id: str, item: dict[str, Any], errors: list[str])
 def _validate_media_item(item_id: str, item: dict[str, Any], errors: list[str]) -> None:
     if "aliases" in item and not isinstance(item.get("aliases"), list):
         errors.append(f"media.{item_id}.aliases must be an array")
+    if item.get("path"):
+        path = _resolve_media_path(str(item["path"]))
+        if path is None:
+            errors.append(f"media.{item_id}.path must stay under app/images")
+
+
+def _resolve_media_path(raw_path: str) -> Path | None:
+    if not raw_path:
+        return None
+    candidate = Path(raw_path)
+    if not candidate.is_absolute():
+        candidate = PROJECT_ROOT / candidate
+    try:
+        resolved = candidate.resolve()
+        resolved.relative_to(PUBLIC_MEDIA_ROOT.resolve())
+    except (OSError, ValueError):
+        return None
+    return resolved
 
 
 def _int_or_none(value: Any) -> int | None:
